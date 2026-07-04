@@ -27,13 +27,13 @@ No deployable code lives here. This repo is agent-facing documentation and ops o
 
 ---
 
-## Active feature branch
+## Current cross-repo PR branch
 
 `claude/risk-radar-fra-epo-2wk5mk` — mirrors the cross-repo feature branch.
 
-Development branch rule: all work in this and sibling repos goes on
-`claude/risk-radar-fra-epo-2wk5mk`. Never push directly to `main` without explicit
-user permission.
+Use this branch only when continuing the current cross-repo Claude handoff.
+For unrelated future work, create a task-specific branch. Never push directly to
+`main` without explicit user permission.
 
 ---
 

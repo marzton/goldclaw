@@ -32,7 +32,7 @@ All other `apps/*` in `goldshore-ai` are retained only for workspace validation.
 | Repo | What it deploys | Notes |
 |------|----------------|-------|
 | `marzton/goldshore` | `.org` domain apps | `goldshore-agent`, `goldshore-api`, `goldshore-mcp`, `goldshore-web`; broker integrations (Fidelity, Robinhood, TOS) |
-| `marzton/goldshore-core` | `banproof-me` Worker | Security/ban-check; called by gateway on every request. Built with Antigravity + Codex. Migration target: `apps/gs-security` in `goldshore-ai`. |
+| `marzton/goldshore-core` | `banproof-me` Worker | Security/ban-check; called by gateway on every request. Built with Antigravity + Codex. Migration target: `apps/gs-api` routes/queues in `goldshore-ai`; do not create a new `apps/*` Worker. |
 
 ---
 
@@ -40,7 +40,7 @@ All other `apps/*` in `goldshore-ai` are retained only for workspace validation.
 
 | Repo | What it deploys | Status |
 |------|----------------|--------|
-| `marzton/goldshore-admin` | `admin.goldshore.org` (Pages) | Active; being superseded by `apps/gs-admin` in `goldshore-ai` |
+| `marzton/goldshore-admin` | `admin.goldshore.org` (Pages) | Active standalone admin; `goldshore-ai/apps/gs-admin` is legacy/out-of-scope unless the two-app policy changes |
 | `marzton/goldshore-api` | standalone API | Confirm parity with `goldshore/apps/goldshore-api` → archive |
 | `marzton/goldshore-ops` | — | Archive candidate — KV template stub, never built |
 | `marzton/goldshore-web` | — | Deprecated — remove from CI |
@@ -63,10 +63,10 @@ All other `apps/*` in `goldshore-ai` are retained only for workspace validation.
 |----------|------|--------|
 | 1 | `goldshore-ops` | Archive |
 | 2 | `goldshore-web` | Remove from CI → archive |
-| 3 | `goldshore-core` | Migrate `banproof-me` → `goldshore-ai/apps/gs-security` → archive |
+| 3 | `goldshore-core` | Migrate `banproof-me` → `goldshore-ai/apps/gs-api` routes/queues → archive |
 | 4 | `goldshore-api` | Confirm parity → archive standalone |
-| 5 | `goldshore-admin` | Confirm parity → archive standalone |
-| 6 | `goldshore-gateway` | Replace `goldshore-ai` stub with real gateway code → archive standalone |
+| 5 | `goldshore-admin` | Keep standalone until an explicit admin migration plan preserves the two-app policy |
+| 6 | `goldshore-gateway` | Keep standalone gateway; `goldshore-ai/apps/gs-gateway` remains a validation stub |
 
 ---
 
@@ -75,6 +75,6 @@ All other `apps/*` in `goldshore-ai` are retained only for workspace validation.
 | Resource | Value |
 |----------|-------|
 | Cloudflare Account ID (Gold Shore Labs) | `f77de112d2019e5456a3198a8bb50bd2` |
-| Primary dev branch | `claude/risk-radar-fra-epo-2wk5mk` |
+| Current cross-repo PR branch | `claude/risk-radar-fra-epo-2wk5mk` |
 | pnpm version | 9 |
 | Node target | see per-app `package.json` `engines` field |
