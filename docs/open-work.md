@@ -11,7 +11,7 @@ Update when status changes. Most-recent entries at the top of each section.
 |----|------|--------|--------|-------|
 | #5492 | `goldshore-ai` | `claude/risk-radar-fra-epo-2wk5mk` | 🟢 Green / mergeable | All required checks passed at commit `87ff349`; review required before merge |
 | #213 | `goldshore-gateway` | `claude/risk-radar-fra-epo-2wk5mk` | 🔴 Blocked | Cloudflare guards fail with 401/403; renew or rescope `CLOUDFLARE_API_TOKEN` in gateway secrets |
-| #1 | `goldclaw` | `claude/risk-radar-fra-epo-2wk5mk` | 🟡 Draft / green | Cross-repo ops hub docs; ready to mark non-draft after this log update |
+| #1 | `goldclaw` | `claude/risk-radar-fra-epo-2wk5mk` | 🟢 Green / ready | Cross-repo ops hub docs; awaiting review/merge |
 
 ---
 
