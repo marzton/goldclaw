@@ -1,0 +1,26 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Wrangler Dev: local KV",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "npm run dev",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "Wrangler Dev: remote KV",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "npm run dev:remote",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "Open local Worker",
+      "type": "pwa-chrome",
+      "request": "launch",
+      "url": "http://localhost:8787",
+      "webRoot": "${workspaceFolder}"
+    }
+  ]
+}

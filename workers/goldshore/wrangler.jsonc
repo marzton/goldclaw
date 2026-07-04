@@ -1,0 +1,61 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "goldshore",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-07-04",
+  "observability": {
+    "enabled": true
+  },
+  "vars": {
+    "ENVIRONMENT": "local"
+  },
+  "kv_namespaces": [
+    {
+      "binding": "GOLDSHORE_KV",
+      // Local-only placeholder used by Miniflare during `npm run dev`.
+      "id": "00000000000000000000000000000000"
+    }
+  ],
+  "env": {
+    "remote": {
+      "name": "goldshore-remote",
+      "vars": {
+        "ENVIRONMENT": "remote"
+      },
+      "kv_namespaces": [
+        {
+          "binding": "GOLDSHORE_KV",
+          // Replace with a real namespace ID before running `npm run dev:remote`.
+          "id": "11111111111111111111111111111111",
+          "remote": true
+        }
+      ]
+    },
+    "staging": {
+      "name": "goldshore-staging",
+      "vars": {
+        "ENVIRONMENT": "staging"
+      },
+      "kv_namespaces": [
+        {
+          "binding": "GOLDSHORE_KV",
+          // Replace with the ID printed by `npm run kv:create:staging`.
+          "id": "22222222222222222222222222222222"
+        }
+      ]
+    },
+    "production": {
+      "name": "goldshore-production",
+      "vars": {
+        "ENVIRONMENT": "production"
+      },
+      "kv_namespaces": [
+        {
+          "binding": "GOLDSHORE_KV",
+          // Replace with the ID printed by `npm run kv:create:production`.
+          "id": "33333333333333333333333333333333"
+        }
+      ]
+    }
+  }
+}

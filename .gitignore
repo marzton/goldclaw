@@ -1,0 +1,30 @@
+# Dependencies and build output
+node_modules/
+dist/
+coverage/
+.wrangler/
+
+# Local environment and secrets
+.env
+.env.*
+.dev.vars
+.dev.vars.*
+*.pem
+*.key
+*.p12
+
+# Local editor and OS state
+.DS_Store
+Thumbs.db
+*.log
+
+# Agent/session state should stay outside this repo.
+.claude/
+.codex/
+backups/
+file-history/
+projects/
+sessions/
+shell-snapshots/
+tasks/
+*.jsonl

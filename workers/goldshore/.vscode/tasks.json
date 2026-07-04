@@ -1,0 +1,65 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "npm: install",
+      "type": "shell",
+      "command": "npm install",
+      "problemMatcher": []
+    },
+    {
+      "label": "wrangler: login",
+      "type": "shell",
+      "command": "npm run cf:login",
+      "problemMatcher": []
+    },
+    {
+      "label": "wrangler: dev local KV",
+      "type": "shell",
+      "command": "npm run dev",
+      "problemMatcher": []
+    },
+    {
+      "label": "wrangler: dev remote KV",
+      "type": "shell",
+      "command": "npm run dev:remote",
+      "problemMatcher": []
+    },
+    {
+      "label": "wrangler: generate types",
+      "type": "shell",
+      "command": "npm run types",
+      "problemMatcher": []
+    },
+    {
+      "label": "wrangler: dry-run staging deploy",
+      "type": "shell",
+      "command": "npm run deploy:dry",
+      "problemMatcher": []
+    },
+    {
+      "label": "wrangler: deploy staging",
+      "type": "shell",
+      "command": "npm run deploy:staging",
+      "problemMatcher": []
+    },
+    {
+      "label": "wrangler: deploy production",
+      "type": "shell",
+      "command": "npm run deploy:production",
+      "problemMatcher": []
+    },
+    {
+      "label": "kv: create staging namespace",
+      "type": "shell",
+      "command": "npm run kv:create:staging",
+      "problemMatcher": []
+    },
+    {
+      "label": "kv: create production namespace",
+      "type": "shell",
+      "command": "npm run kv:create:production",
+      "problemMatcher": []
+    }
+  ]
+}

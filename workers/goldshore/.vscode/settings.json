@@ -1,0 +1,8 @@
+{
+  "editor.formatOnSave": true,
+  "files.associations": {
+    "wrangler.jsonc": "jsonc"
+  },
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.preferences.importModuleSpecifier": "relative"
+}
