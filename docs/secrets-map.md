@@ -76,6 +76,41 @@ Settings: https://github.com/marzton/goldclaw/settings/secrets/actions
 
 ---
 
+## Cross-repo Actions secret inventory (names only)
+
+Observed in `.github/workflows/` across all `marzton/*` repos (2026-07-08 sweep).
+Use this list when auditing which token names exist before creating new ones —
+prefer reusing a canonical name over minting another variant.
+
+| Family | Secret names in use |
+|--------|--------------------|
+| Cloudflare account/zone | `CLOUDFLARE_ACCOUNT_ID`, `CF_ACCOUNT_ID`, `CLOUDFLARE_ZONE_ID`, `CF_ZONE_ID` |
+| Cloudflare API tokens | `CLOUDFLARE_API_TOKEN`, `CF_API_TOKEN`, `CF_USER_TOKEN`, `CLOUDFLARE_GOLDSHORE_AI_DEPLOY_TOKEN`, `CLOUDFLARE_BUILD_API_TOKEN`, `CLOUDFLARE_API_TOKEN_GS_CONTROL`, `CLOUDFLARE_MOTHER_BUILD_TOKEN`, `CF_WORKERS_BUILDS`, `LOGPUSH_ADMIN_TOKEN`, `CF_WEB_ANALYTICS_TOKEN` |
+| Cloudflare legacy auth (⚠ retire) | `CF_AUTH_KEY`, `CF_AUTH_EMAIL` |
+| CF Access service token | `CF_ACCESS_CLIENT_ID`, `CF_ACCESS_CLIENT_SECRET` |
+| GitHub | `GH_PAT`, `GH_TOKEN`, `GS_DISPATCH_TOKEN`, `GITHUB_APP_ID`, `GITHUB_APP_PRIVATE_KEY`, `GITHUB_APP_INSTALLATION_ID`, `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET`, `GITHUB_WEBHOOK_SECRET` |
+| AI / agents | `ANTHROPIC_API_KEY`, `CODEX_USAGE_USD`, `CODEX_BUDGET_USD`, `CODEX_JWT_HS256_KEY` |
+| KV id injection (goldshore critique/site) | `KV_SITE_{PROD,PREVIEW,DEV}`, `KV_SESSIONS_{PROD,PREVIEW,DEV}`, `KV_PROMPT_{PROD,PREVIEW,DEV}`, `KV_CACHE_{PROD,PREVIEW,DEV}` |
+| Notifications / misc | `GOOGLE_CHAT_WEBHOOK`, `MOBILE_WEBHOOK_URL`, `AGENT_WEBHOOK_URL`, `POLICY_APPLY_TOKEN`, `PUBLIC_GOLDSHORE_API_TOKEN` |
+
+The `CF_*` / `CLOUDFLARE_*` duplication (e.g. `CF_API_TOKEN` vs
+`CLOUDFLARE_API_TOKEN`) is historical drift — canonical names are the
+`CLOUDFLARE_*` forms documented above.
+
+---
+
+## OAuth / provider secrets (Worker-side, not Actions)
+
+Socials and provider OAuth (Google, Meta/Instagram, X, sandbox) live as
+**Worker secrets on `gs-api`**, not Actions secrets — full table in
+`goldshore-ai/docs/GOLDCLAW_INTEGRATIONS.md`. Broker OAuth (Schwab, Robinhood)
+lives on `gs-trading`. Trading tokens rotate through `GS_TRADING_KV` after the
+initial OAuth handshake. See `docs/integration-map.md` §2 for the complete
+OAuth / service-account table (including the GCP `github-storage-access`
+service account and its pending key revocation).
+
+---
+
 ## Cloudflare token permissions reference
 
 See `docs/cf-infrastructure.md` → "CF API Token Permissions" for the full
