@@ -6,6 +6,10 @@ Dashboard: https://dash.cloudflare.com/f77de112d2019e5456a3198a8bb50bd2
 This document is the canonical agent reference for all Cloudflare resources.
 Do not duplicate this in individual repo CLAUDE.md files — link here instead.
 
+> Last verified against the live account: **2026-07-08** (24 Workers, 28 KV
+> namespaces, 6 D1 databases, 7 R2 buckets). For how these resources connect
+> across subsystems and repos, see `docs/integration-map.md`.
+
 ---
 
 ## Workers
@@ -25,6 +29,7 @@ Do not duplicate this in individual repo CLAUDE.md files — link here instead.
 | `gs-platform` | Platform landing / routing | ✅ Active |
 | `gs-www-redirect-prod` | www → apex redirect | ✅ Active |
 | `gs-www-redirect-production` | www → apex redirect (alt) | ✅ Active |
+| `gs-web-prod` | Deploy channel for gs-web (prod tag) | ✅ Active |
 | `gs-web-preview` | Preview channel for gs-web | Preview |
 | `gs-api-preview` | Preview channel for gs-api | Preview |
 | `banproof` | Ban/block enforcement | ✅ Active |
@@ -62,6 +67,14 @@ Do not duplicate this in individual repo CLAUDE.md files — link here instead.
 | `RMARSTON-COM` | `a854b3393b5c412bb945742ecb3eda1b` | rmarston.com |
 | `goldshore-remote-GOLDSHORE_KV` | `0ea0d244a69f4bb48c38009418498ca7` | remote dev |
 | `goldshore-staging-GOLDSHORE_KV` | `a836649d51354698bf589db04885e4a6` | staging |
+| `goldshore-production-GOLDSHORE_KV` | `f18aa1552b6b4239af9ae7486766f502` | production (legacy goldshore worker) |
+| `GS_API_KV` | `e0b8b807191346c3b0afc25fe716d2cd` | gs-api primary KV |
+| `GS_API_KV_PREVIEW` | `d4d20cee39094b999dea3f7e5f4c533a` | gs-api preview |
+| `GS_CONFIG_PREVIEW` | `dddc8b83775c41e58208bf8de87b7052` | gs-control preview config |
+| `KV_SESSIONS` | `d0b889d0ba314b42892f5b959356ceda` | gs-admin / goldshore-admin sessions |
+| `gs-web-app-session` | `e9f3d677cf67460e8870c647db43b46b` | gs-web-app sessions |
+| `gs-signals-cache` | `f8cc5b1dd1ec49d7a3f7bf9acc5f2b1d` | gs-signals-prod cache |
+| `banproof-waitlist` | `eea96e387176489db416472c1d28af2f` | banproof waitlist |
 
 ---
 

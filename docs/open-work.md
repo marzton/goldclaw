@@ -9,6 +9,7 @@ Update when status changes. Most-recent entries at the top of each section.
 
 | PR | Repo | Branch | Status | Notes |
 |----|------|--------|--------|-------|
+| #5 | `goldclaw` | `claude/goldshore-infrastructure-integration-ywmxlt` | 🟡 Draft | Master integration map (`docs/integration-map.md`), live-verified CF infra refresh, secrets inventory, 11 drift findings |
 | #5492 | `goldshore-ai` | `claude/risk-radar-fra-epo-2wk5mk` | 🟢 Green / mergeable | All required checks passed at commit `87ff349`; review required before merge |
 | #213 | `goldshore-gateway` | `claude/risk-radar-fra-epo-2wk5mk` | 🔴 Blocked | Cloudflare guards fail with 401/403; renew or rescope `CLOUDFLARE_API_TOKEN` in gateway secrets |
 | #1 | `goldclaw` | `claude/risk-radar-fra-epo-2wk5mk` | 🟢 Green / ready | Cross-repo ops hub docs; awaiting review/merge |
