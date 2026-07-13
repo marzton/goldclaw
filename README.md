@@ -4,7 +4,7 @@ Clean collaboration repo for Claude, Codex, OpenClaw planning, and Cloudflare Wo
 
 ## Layout
 
-- `docs/` - OpenClaw scaling notes, migration references, and implementation templates.
+- `docs/` - Cross-repo ops docs: `integration-map.md` (master goldshore.ai/.org integration map), `cf-infrastructure.md`, `secrets-map.md`, `repo-index.md`, `open-work.md`, plus OpenClaw scaling notes, migration references, and implementation templates.
 - `workers/goldshore/` - Cloudflare Workers + KV scaffold for Goldshore.
 - `AGENTS.md` - Operating notes for AI coding agents working in this repo.
 
