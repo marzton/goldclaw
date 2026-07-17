@@ -111,6 +111,12 @@ For protected subdomains to show the Cloudflare authentication screen, each host
 must have a **Self-hosted Access Application** configured in:
 **Zero Trust → Access → Applications → Add an application → Self-hosted**
 
+> Not to be confused with a **CF OAuth Client** (Cloudflare acting as an OIDC
+> identity provider for a third-party app, via `dash.cloudflare.com/oauth2/*`)
+> — that's a separate mechanism, documented in `docs/secrets-map.md` §"Cloudflare
+> OAuth Client". Access Applications gate a hostname behind CF's login screen;
+> an OAuth Client lets an external app authenticate *as* a Cloudflare user.
+
 | App Name | Application Domain | Worker | Auth Type | Policy |
 |----------|-------------------|--------|-----------|--------|
 | Dashboard | `goldshore.ai/app/` | `gs-web-app` | Email / GitHub SSO | Authenticated users |

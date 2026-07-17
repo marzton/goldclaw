@@ -34,6 +34,63 @@ Add the token as an auth rule in each Access Application policy.
 
 ---
 
+## Cloudflare OAuth Client (dash.cloudflare.com — CF as IDP)
+
+Distinct from the CF Service Token above. This is Cloudflare acting as an
+**OAuth 2.0 / OIDC identity provider** for a registered client app (e.g. an
+agent or dashboard doing "Sign in with Cloudflare"), not CF Access gating a
+protected hostname. No repo in this org currently registers a CF OAuth
+client — this section documents the mechanism and naming convention for
+when one does.
+
+Register at: https://developers.cloudflare.com/fundamentals/oauth/create-an-oauth-client/
+(Dashboard tab on that page, or `POST /accounts/$ACCOUNT_ID/oauth_clients` via API)
+
+### Endpoints
+
+| Purpose | Endpoint |
+|---------|----------|
+| JWKS | `https://dash.cloudflare.com/.well-known/jwks.json` |
+| OIDC discovery | `https://dash.cloudflare.com/.well-known/openid-configuration` |
+| Authorization | `https://dash.cloudflare.com/oauth2/auth` |
+| Token | `https://dash.cloudflare.com/oauth2/token` |
+| Revoke | `https://dash.cloudflare.com/oauth2/revoke` |
+| Session logout | `https://dash.cloudflare.com/oauth2/logout` |
+| User info | `https://dash.cloudflare.com/oauth2/userinfo` |
+
+### Secret storage (multi-field credential pair)
+
+| Secret Name | Purpose |
+|-------------|--------|
+| `CF_OAUTH_CLIENT_ID` | Client ID from the `oauth_clients` registration |
+| `CF_OAUTH_CLIENT_SECRET` | Current client secret |
+
+Store both as GitHub Actions secrets in whichever repo consumes the OAuth
+flow — same per-repo settings URL pattern as every other secret in this doc
+(`https://github.com/marzton/<repo>/settings/secrets/actions`).
+
+### Rotation (dual-secret, zero-downtime)
+
+Each OAuth client can hold **two secrets at once**, so rotation never causes
+an outage:
+
+1. `POST https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/oauth_clients/$CLIENT_ID/rotate_secret`
+   → issues a new secret alongside the existing (still-valid) one.
+2. Update `CF_OAUTH_CLIENT_SECRET` to the new value in every consuming repo.
+3. `GET .../oauth_clients/$CLIENT_ID` — if `has_rotated_secret: true`, an old
+   secret is still live and must be deleted next.
+4. `DELETE https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/oauth_clients/$CLIENT_ID/rotate_secret`
+   → deletes the old secret, completing the rotation.
+
+Both calls need `Authorization: Bearer $API_TOKEN` (a CF API token scoped for
+OAuth client management) and `Content-Type: application/json`.
+
+> ⚠ Do not run step 4 until every consumer is confirmed running on the new
+> secret from step 2 — deleting the old secret before rollout finishes is
+> what turns a routine rotation into an outage.
+
+---
+
 ## marzton/goldshore-ai
 
 Settings: https://github.com/marzton/goldshore-ai/settings/secrets/actions
