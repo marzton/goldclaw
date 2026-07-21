@@ -20,6 +20,23 @@ Each phase includes:
 - Zero-downtime migration procedures
 - Performance metrics & scaling triggers
 
+### Growth lane: Certificate of Skill exchange
+
+Goldshore can add a contributor pathway alongside the product roadmap: scoped
+project work reviewed in exchange for a Certificate of Skill. This responds to a
+market where recruiters, fake job posts, and shallow credential filters often
+fail to show whether someone can actually do the work.
+
+The program should verify evidence, not sell false certainty. A certificate
+should name the specific skill, deliverables, reviewer, issue date, and proof
+trail. It should never be marketed as a job guarantee, degree, license, or broad
+employment endorsement.
+
+For compliance, unpaid work must stay within a lawful practicum, educational,
+community, or open-source contribution model. If a task primarily creates
+production value for Goldshore, the default path is paid work. See
+`docs/business-plan.md` for the full operating model and guardrails.
+
 ---
 
 ## PHASE 1: LaCie PORTABLE HUB
