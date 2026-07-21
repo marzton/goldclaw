@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "goldclaw": {
+      "command": "node",
+      "args": ["server.js"],
+      "env": {
+        "GCP_PROJECT_ID": "goldshore-proj",
+        "CF_ACCOUNT_ID": "local-env",
+        "CF_NAMESPACE_ID": "SECRETS",
+        "OPENCLAW_CLIENT_ID": "local-env",
+        "CF_OAUTH_CLIENT_ID": "local-env",
+        "GITHUB_OAUTH_CLIENT_ID": "local-env"
+      }
+    }
+  }
+}

@@ -1,0 +1,15 @@
+# Cloudflare Certificates
+certs/
+*.pem
+certificate*.pem
+
+# Environment files (never commit secrets)
+.env.local
+.env.cloudflare
+.env.*.local
+
+# Sensitive files
+.credentials.json
+*-key.pem
+*-cert.pem
+~/.wrangler/
