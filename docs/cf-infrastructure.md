@@ -111,16 +111,54 @@ For protected subdomains to show the Cloudflare authentication screen, each host
 must have a **Self-hosted Access Application** configured in:
 **Zero Trust → Access → Applications → Add an application → Self-hosted**
 
+> Not to be confused with a **CF OAuth Client** (Cloudflare acting as an OIDC
+> identity provider for a third-party app, via `dash.cloudflare.com/oauth2/*`)
+> — that's a separate mechanism, documented in `docs/secrets-map.md` §"Cloudflare
+> OAuth Client". Access Applications gate a hostname behind CF's login screen;
+> an OAuth Client lets an external app authenticate *as* a Cloudflare user.
+
 | App Name | Application Domain | Worker | Auth Type | Policy |
 |----------|-------------------|--------|-----------|--------|
 | Dashboard | `goldshore.ai/app/` | `gs-web-app` | Email / GitHub SSO | Authenticated users |
 | Admin | `admin.goldshore.org` | `gs-core-worker-prod` | Email / GitHub SSO | Authenticated users |
+| **gs-web Admin** | **`goldshore.ai/admin/*`** | **`gs-web`** | **Email / GitHub SSO** | **Authenticated users** |
 | Trading | `goldshore.org/dash` | `gs-trading-prod` | Email / GitHub SSO | Authenticated users |
 | MCP | `mcp.goldshore.ai` | `gs-mcp` | Service Token | Service Token only |
 | API | `api.goldshore.ai` | `gs-api` | Service Token + Email | Both |
 | Agent | `agent.goldshore.ai` | `gs-agent-prod` | Service Token | Service Token only |
 | Signals | `signals.goldshore.ai` | `gs-signals-prod` | Email / GitHub SSO | Authenticated users |
 | Gateway | `gateway.goldshore.ai` | `gs-gateway-prod` | Service Token | Service Token only |
+
+### ⚠ gs-web Admin — missing edge Access Application (found 2026-07-12)
+
+`goldshore.ai/admin/*` (the `gs-web` Astro pages: `/admin/goldclaw`,
+`/admin/crawler`, `/admin/integrations/keys`, `/admin/integrations/all`,
+`/admin/lead-submissions`, plus `/api/admin/*`) had **no** entry in this
+table and, until fixed in `goldshore-ai` PR #5618, no server-side auth check
+of its own either — the page shells rendered for anyone who requested the
+URL, relying entirely on client-side JS calls to CF-Access-gated `gs-api`
+endpoints for actual data.
+
+Two layers now exist / are needed:
+
+1. **App-level (done, PR #5618):** `apps/gs-web/src/middleware.ts` now calls
+   `verifyAccessWithClaims` (`@goldshore/auth`) for any `/admin` or
+   `/api/admin` path and returns `401` if there's no valid Cloudflare Access
+   JWT. This is defense-in-depth only — it cannot show the interactive
+   Access login screen, since that requires an Access Application to exist.
+2. **Edge-level (NOT done — no MCP/API tool available to provision this;
+   requires manual dashboard action):**
+   - Zero Trust → Access → Applications → **Add an application** → **Self-hosted**
+   - Application domain: `goldshore.ai/admin`
+   - Path: include subpaths (covers `/admin/*`)
+   - Auth type: Email / GitHub SSO (matches the Dashboard/Trading/Signals rows)
+   - Policy: Authenticated users (or restrict to the specific admin email list)
+   - Also add `goldshore.ai/api/admin` as a second path on the same
+     application (or a second self-hosted app) so `/api/admin/*` gets the
+     same edge intercept.
+
+Until the Access Application is created, request #1 (the app-level 401) is
+the *only* protection on this surface.
 
 ### Prerequisites for Access to intercept traffic
 

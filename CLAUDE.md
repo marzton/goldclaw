@@ -17,6 +17,7 @@ No deployable code lives here. This repo is agent-facing documentation and ops o
 | `docs/secrets-map.md` | Secret names by repo (no values — values live in GitHub Actions Secrets) |
 | `docs/cf-infrastructure.md` | Complete Cloudflare resource map: Workers, KV, D1, R2, Access Applications |
 | `docs/integration-map.md` | Master cross-subsystem integration map — how Web, Gateway, Signals, Ops, Org, AI, API, MCP, Admin, Socials, Trading, Pages, email, OAuth, agents, and devices share information across goldshore.ai + goldshore.org |
+| `docs/architecture-sop.md` | **Canonical target architecture (decided).** Domain-by-domain ownership (website/admin/API+gateway+MCP+GoldClaw/mail/database/workflow/subscription), repo→role map, naming conventions, and phased execution roadmap. Read this before proposing new Workers or repos. |
 
 ---
 
