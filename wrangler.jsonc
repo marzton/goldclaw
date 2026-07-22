@@ -1,5 +1,5 @@
 {
   "name": "goldclaw",
-  "pages_build_output_dir": "./dist",
+  "main": "./src/worker.js",
   "compatibility_date": "2026-07-22"
 }
