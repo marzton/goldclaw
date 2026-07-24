@@ -1,0 +1,16 @@
+{
+  "name": "goldclaw",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Goldclaw collaboration repo for Goldshore planning, MCP, and Cloudflare Worker experiments.",
+  "scripts": {
+    "build": "npm --prefix workers/goldshore ci && npm --prefix workers/goldshore run check && node scripts/build-pages.js",
+    "check": "npm --prefix workers/goldshore run check",
+    "worker:dev": "npm --prefix workers/goldshore run dev",
+    "worker:deploy:staging": "npm --prefix workers/goldshore run deploy:staging",
+    "worker:deploy:production": "npm --prefix workers/goldshore run deploy:production"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
