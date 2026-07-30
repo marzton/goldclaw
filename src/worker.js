@@ -1,3 +1,7 @@
+const DEFAULT_ACCESS_TEAM_DOMAIN = "goldshore.cloudflareaccess.com";
+const DEFAULT_ACCESS_CLIENT_ID =
+  "95aa2409100eea09257ab2d3a41451fe8407db48493840686e6077e3444610b4";
+
 function buildMetadata(request) {
   const { origin } = new URL(request.url);
 
@@ -10,6 +14,18 @@ function buildMetadata(request) {
     grant_types_supported: ["authorization_code", "refresh_token"],
     code_challenge_methods_supported: ["S256"],
     scopes_supported: ["openid", "email", "profile"],
+  };
+}
+
+function buildProtectedResourceMetadata(request) {
+  const { origin } = new URL(request.url);
+
+  return {
+    resource: origin,
+    authorization_servers: [origin],
+    scopes_supported: ["openid", "email", "profile"],
+    bearer_methods_supported: ["header"],
+    resource_name: "GoldShore MCP Portal",
   };
 }
 
@@ -34,9 +50,10 @@ function buildAccessAuthorizationUrl(request, env = {}) {
     return accessUrl;
   }
 
-  const teamDomain = env.ACCESS_TEAM_DOMAIN ?? url.searchParams.get("access_team_domain") ?? "goldshore.cloudflareaccess.com";
-  const clientId = env.ACCESS_CLIENT_ID ?? url.searchParams.get("access_client_id");
-  if (!clientId) return null;
+  const teamDomain =
+    env.ACCESS_TEAM_DOMAIN ?? url.searchParams.get("access_team_domain") ?? DEFAULT_ACCESS_TEAM_DOMAIN;
+  const clientId =
+    env.ACCESS_CLIENT_ID ?? url.searchParams.get("access_client_id") ?? DEFAULT_ACCESS_CLIENT_ID;
 
   const accessUrl = new URL(
     `https://${teamDomain}/cdn-cgi/access/sso/oidc/${clientId}/authorization`,
@@ -83,13 +100,12 @@ export default {
       return Response.json(buildMetadata(request));
     }
 
+    if (url.pathname === "/.well-known/oauth-protected-resource") {
+      return Response.json(buildProtectedResourceMetadata(request));
+    }
+
     if (url.pathname === "/authorize") {
       const accessUrl = buildAccessAuthorizationUrl(request, env);
-      if (!accessUrl) {
-        return oauthUnavailable(
-          "Set access_authorization_url or access_client_id in the request while the Cloudflare Access OAuth wiring is being finalized.",
-        );
-      }
       return Response.redirect(accessUrl.toString(), 302);
     }
 
