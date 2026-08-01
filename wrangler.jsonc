@@ -1,5 +1,13 @@
 {
   "name": "goldclaw",
   "main": "./src/worker.js",
-  "compatibility_date": "2026-07-22","env": {"prod":{"name":"goldclaw"}}
+  "compatibility_date": "2026-07-22",
+  "env": {
+    "prod": {
+      "name": "goldclaw"
+    }
+  },
+  // Optional when this worker is used as the OAuth front door for mcp.goldshore.ai.
+  // ACCESS_AUTHORIZATION_URL, ACCESS_CLIENT_ID, and ACCESS_TEAM_DOMAIN let /authorize
+  // redirect through Cloudflare Access instead of returning a 501 placeholder.
 }
