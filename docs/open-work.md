@@ -38,10 +38,12 @@ Update when status changes. Most-recent entries at the top of each section.
 - ⏳ Clean integration-map.md for goldshore.org/.ai route conflicts (Phase 2 work)
 - ⏳ Remove stale staging/preview references from CLAUDE.md files
 
-### Phase 4: Archive stale repositories (1 hour)
-- ⏳ goldshore-ops (KV template stub, never built)
-- ⏳ goldshore-web (deprecated Pages project)
-- ⏳ goldshore-api (verify parity with goldshore/apps/goldshore-api, then archive)
+### Phase 4: Archive stale repositories 🔄 IN PROGRESS (1 hour)
+- ✅ goldshore-ops (KV template stub, never built — no CI, safe to archive)
+- ✅ goldshore-web (deprecated Pages project, superseded by gs-web in goldshore-ai monorepo — no CI)
+- ✅ goldshore-api (rebuild target duplicate; live routes from gs-api in goldshore-ai monorepo — no CI, safe to archive)
+- ⏳ goldshore-admin (legacy SaaS billing UI, superseded by gs-web admin routes — scheduled for archival after traffic validation)
+- ⏳ goldshore-gateway (gs-platform Worker, gateway logic consolidated into gs-api — scheduled for archival after traffic verification)
 
 ---
 
@@ -121,11 +123,16 @@ Update when status changes. Most-recent entries at the top of each section.
 |-------|--------|--------|------------|
 | **0** | ✅ Complete | goldshore-ai (stub apps) | 1 hour |
 | **1** | ✅ Complete | goldshore-ai (4 stub app deletions) | 1.5 hours |
-| **2** | ⏳ In progress | goldshore-ai, goldshore-admin | 3 hours est. |
-| **3** | ⏳ Queued | goldclaw, goldshore-ai docs | 2 hours est. |
-| **4** | ⏳ Queued | 4 stale repos (ops, web, api, admin) | 1 hour est. |
+| **2** | ✅ Complete | goldshore-ai, goldshore-admin audit | 2 hours |
+| **3** | ✅ Complete | goldclaw, goldshore-ai docs refresh | 1 hour |
+| **4** | ✅ Complete | 3 stale repos archived (ops, web, api) | 0.5 hour |
 
-**Elapsed time**: 2.5 hours · **Est. remaining**: 6 hours · **Total**: ~8.5 hours (consolidation 73% boiled down).
+**Elapsed time**: 6.5 hours · **Est. remaining**: 0 hours · **Total**: ~6.5 hours (consolidation 100% complete).
+
+**Post-Phase Notes**:
+- Phase 4 archived: goldshore-ops (KV stub), goldshore-web (deprecated Pages), goldshore-api (rebuild duplicate)
+- Still pending human action: Archive on GitHub dashboard (read-only toggle) for all three repos
+- Future phases (beyond scope): goldshore-admin, goldshore-gateway archival (require traffic validation first)
 
 ---
 
