@@ -1,17 +1,19 @@
 # Goldshore Ecosystem Integration Map
 
 > Verified against live Cloudflare state on **2026-07-08** (Gold Shore Labs account
-> `f77de112d2019e5456a3198a8bb50bd2`) and against the wrangler configs of all 21
-> repos in the `marzton` ecosystem. This is the single document that ties every
-> subsystem together — Web, Gateway, Signals, Ops, Org, AI, API, MCP, Admin,
-> Socials, Dash/Dashboard, Trading, Pages, Workers, Wrangler, agents (Codex,
-> Claude, Gemini), OpenClaw, devices (HP laptop, LaCie, Termux), email, OAuth
-> service accounts, tokens, configs, and bindings — and shows how information is
-> shared across the `goldshore.ai` and `goldshore.org` environments.
+> `f77de112d2019e5456a3198a8bb50bd2`) and wrangler configs of all 21 repos. Updated
+> **2026-08-17** with Phase 2 audit findings (admin backend consolidation complete;
+> goldshore-admin confirmed as legacy SaaS platform unrelated to gs-api ops admin).
+> This is the single document that ties every subsystem together — Web, Gateway,
+> Signals, Ops, Org, AI, API, MCP, Admin, Socials, Dash/Dashboard, Trading, Pages,
+> Workers, Wrangler, agents (Codex, Claude, Gemini), OpenClaw, devices (HP laptop,
+> LaCie, Termux), email, OAuth service accounts, tokens, configs, and bindings —
+> and shows how information is shared across the `goldshore.ai` and `goldshore.org`
+> environments.
 >
 > Companion docs: `cf-infrastructure.md` (raw CF resource tables),
 > `secrets-map.md` (secret names by repo), `repo-index.md` (repo map),
-> `open-work.md` (in-flight work).
+> `open-work.md` (in-flight work), `architecture-sop.md` (target architecture + phases).
 
 ---
 
@@ -357,17 +359,24 @@ information infrastructure.
 
 ---
 
-## 6. Known drift & config issues (found 2026-07-08)
+## 6. Known drift & config issues (found 2026-07-08, updated 2026-08-17)
 
-Live account state vs. checked-in configs. Ordered by risk.
+Live account state vs. checked-in configs. Ordered by risk. *Phase 2 audit
+(2026-08-17) resolved item 1 as a Phase 4 task (goldshore-admin is legacy
+SaaS billing system, unrelated to gs-api ops admin; will be archived
+after traffic validation).*
 
-1. **`admin.goldshore.ai` claimed twice** — `gs-admin` Pages custom domain and the
-   standalone `goldshore-admin` Worker route. Worker routes beat Pages domains;
-   deploying goldshore-admin would shadow the Pages admin.
+1. **`admin.goldshore.ai` claimed twice** — `gs-admin` Pages (canonical) and
+   standalone `goldshore-admin` Worker (legacy Pages). **Phase 2 finding**:
+   `goldshore-admin` is a legacy SaaS customer/subscription management platform
+   deployed at `admin.goldshore.org`, NOT the infrastructure ops admin. It will
+   be archived in Phase 4. Conflict will resolve when goldshore-admin repo is
+   decommissioned. No action needed for Phase 3.
 2. **`api.goldshore.org` / `goldshore.org/*` claimed by multiple configs** —
    `gs-api` (monorepo) vs. standalone `goldshore-api`; `gs-web` (monorepo) vs.
-   `goldshore-org` router in `marzton/goldshore`. Pick one owner per host
-   (route-ownership doc in `goldshore-ai/docs/ROUTE_OWNERSHIP.md`).
+   `goldshore-org` router in `marzton/goldshore`. **Phase 3 task**: resolve
+   route ownership (pick one owner per host; decision needed on whether `goldshore-org`
+   Worker continues serving `.org` apex or traffic cuts over to `gs-web`).
 3. **Gateway D1 missing**: `goldshore-gateway` binds D1 `goldshore`
    (`2b7cb4cd-f9b3-4107-9f03-ae76e99f0c14`) — no such database in the live
    account (6 D1s exist; see `cf-infrastructure.md`). Deploy would fail or bind dead.

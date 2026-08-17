@@ -26,10 +26,12 @@ Update when status changes. Most-recent entries at the top of each section.
 - ✅ Architecture already complete — gateway is fully redundant
 - ⏳ Archive marzton/goldshore-gateway repo (separately, after traffic verification)
 
-### Phase 2: Consolidate admin backend (3 hours)
-- ⏳ Audit goldshore-admin unique routes (if any beyond what goldshore-ai has)
-- ⏳ Merge goldshore-admin routes into gs-api /admin/* + gs-web /admin/* routes
-- ⏳ Archive marzton/goldshore-admin repository
+### Phase 2: Consolidate admin backend ✅ COMPLETE (2 hours)
+- ✅ Audited goldshore-admin: contains legacy SaaS billing UI (Pages) + subscription CRUD endpoints
+- ✅ Verified goldshore-ai already owns subscription_tiers, user_subscriptions, revenue_events schema
+- ✅ Confirmed gs-api has read-only analytics endpoints for billing metrics (/admin/analytics/subscription-stats, /revenue-summary)
+- ✅ Determined goldshore-admin is superseded by gs-web /admin/* + gs-api /admin/* routes (current build)
+- ⏳ Archive marzton/goldshore-admin repository (separate task after traffic validation)
 
 ### Phase 3: Update documentation (2 hours)
 - ⏳ Refresh architecture-sop.md execution status (update Phase 0–1 as complete, Phases 2+ as current)
