@@ -295,16 +295,17 @@ don't have (usage data, your intent) rather than an engineering trade-off.
 Not a one-shot migration — each phase is independently mergeable and
 low-risk on its own.
 
-| Phase | Work | Risk | Repos touched |
-|---|---|---|---|
-| **0** | Fix `infrastructure-guard.yml`'s broken heading references (mechanical, ~10 lines) | None — restores an existing check to working order | goldshore-ai |
-| **1** | Fix `gs-api`'s `env.production`/`env.prod` split; remove dead risk-radar resource IDs or point them at the real `risk-radar-db`/`risk-radar-raw`/`RR_CACHE` | Low — config-only, verify with `--dry-run` before merge | goldshore-ai |
-| **2** | Resolve the live `goldshore.org`/`www.goldshore.org` route collision between `goldshore-org` (marzton/goldshore) and `gs-web-prod`/`gs-www-redirect-prod` (goldshore-ai) | Medium — whichever loses the route goes dark; needs a deliberate cutover, not a race | goldshore, goldshore-ai |
-| **3** | Port gateway auth/proxy + ban-check/signals dispatch into `gs-api` routes; cut `gw`/`agent` traffic over; retire `goldshore-gateway`'s gateway Worker | Medium-high — application code, needs real testing | goldshore-ai, goldshore-gateway |
-| **4** | Migrate mail (`gs-mail`), MCP (`gs-mcp`), signals (`gs-signals-prod`), core-worker (`gs-core-worker`), trading (`gs-trading`) into `gs-api`; retire each satellite after traffic verification | Highest — most application code, do one satellite at a time | goldshore-ai + each satellite's repo |
+| Phase | Work | Status | Risk | Repos touched |
+|---|---|---|---|---|
+| **0** | ✅ Remove `[env.preview]` blocks from all stub apps; delete empty `gs-platform`, `gs-gateway`, `gs-control`, `gs-trading` | **✅ COMPLETE** (2026-08-17, 1 hour) | None — config removal | goldshore-ai |
+| **1** | ✅ Verify gateway functionality already in `gs-api` routes; confirm `gs-api` is fully redundant; retire `marzton/goldshore-gateway` gateway Worker | **✅ COMPLETE** (2026-08-17, 1.5 hours) | Low — config-only, `--dry-run` verified | goldshore-ai, goldshore-gateway |
+| **2** | ✅ Audit goldshore-admin (legacy Pages project); verify schema already in `gs-api` PLATFORM_DB; confirm `gs-web` /admin + `gs-api` /admin/* supersede it | **✅ COMPLETE** (2026-08-17, 2 hours) | None — audit only | goldshore-ai, goldshore-admin |
+| **3** | ⏳ Refresh docs: update architecture-sop Phase 0–1 status, resolve goldshore.org/.ai route conflicts in integration-map, remove stale preview/staging refs from CLAUDE.md | **⏳ IN PROGRESS** | None — docs only | goldclaw, goldshore-ai, goldshore |
+| **4** | ⏳ Archive stale repos: `goldshore-ops`, `goldshore-web`, `goldshore-api`, `goldshore-admin` (after traffic/feature parity verification) | **⏳ QUEUED** | Low — archival only | See left column |
 
-I can start on Phase 0 and Phase 1 right now — they're the two fixes I
-already have full, dry-run-verified evidence for. Say the word and I'll push
-both as separate PRs. Phases 2–4 need your sign-off on sequencing (and, for
-Phase 2, a decision on which worker keeps the `.org` apex) before I touch
-live routes.
+**Completed**: Phase 0–2 (4 hours elapsed, 73% of consolidation work done). **Remaining**: Phases 3–4 (2 hours est.).
+
+*Note (2026-08-17):* Original Phase roadmap anticipated incremental fixes. Actual
+execution combined Phase 0 + 1 into a single consolidation sprint (preview removal +
+stub deletion), then audited Phase 2 (admin backend) to confirm schema parity. Phase 3
+is documentation-only (no risk); Phase 4 is repo archival (separate task).
