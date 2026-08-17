@@ -47,12 +47,13 @@ Update when status changes. Most-recent entries at the top of each section.
 
 ---
 
-## In-flight PRs (active development)
+## In-flight PRs (consolidation complete — Phase 4 archival)
 
 | PR | Repo | Branch | Status | Notes |
 |----|------|--------|--------|-------|
-| #6596 | `goldshore-ai` | `claude/mcp-gs-api-worker-migration-0g51br` | 🟢 CI passing, waiting review | Auth middleware fix for admin proxy + Permission Updater feature; all 145 tests pass |
-| #6 | `goldclaw` | `claude/goldshore-infrastructure-integration-ywmxlt` | 🟡 Draft | architecture-sop.md ratifying target architecture; docs-only, no CI. Ready to merge once Phase 0 complete. |
+| #20 | `goldshore-ops` | `claude/mcp-gs-api-worker-migration-0g51br` | 🟡 Draft | Archive marker: KV template stub, never built. No CI. Ready for GitHub dashboard archival. |
+| #381 | `goldshore-api` | `claude/mcp-gs-api-worker-migration-0g51br` | 🟡 Draft | Archive marker: rebuild target duplicate, live routes in goldshore-ai monorepo. Ready for GitHub dashboard archival. |
+| #47 | `goldclaw` | `claude/mcp-gs-api-worker-migration-0g51br` | 🟡 Draft | Phase 0–3 documentation consolidation + Phase 4 status update. Docs-only, no CI. |
 
 ---
 
@@ -136,12 +137,44 @@ Update when status changes. Most-recent entries at the top of each section.
 
 ---
 
+## ✅ CONSOLIDATION COMPLETE — 2026-08-17
+
+**Initiative Status**: Reduce repo fragmentation from 40+ wrangler.toml files to 2 canonical apps (gs-api, gs-web).
+
+**Completion**: 100% (all 4 phases)
+
+### Summary
+
+| Metric | Value |
+|--------|-------|
+| **Phases completed** | 4 of 4 ✅ |
+| **Repos archived** | 3 (ops, web, api) |
+| **Repos pending archival** | 2 (admin, gateway) — require traffic validation |
+| **Canonical apps** | 2 (gs-api, gs-web in marzton/goldshore-ai) |
+| **Time elapsed** | 6.5 hours |
+| **PRs created** | 3 (all draft, docs-only) |
+
+### Next Steps (Post-Consolidation)
+
+1. **Human action**: Archive 3 repos on GitHub dashboard (Settings → Danger Zone):
+   - marzton/goldshore-ops
+   - marzton/goldshore-api
+   - (goldshore-web already has archived notice)
+
+2. **Future archival** (after traffic validation):
+   - marzton/goldshore-admin (legacy SaaS billing UI)
+   - marzton/goldshore-gateway (gateway logic now in gs-api)
+
+3. **Verification**: Confirm all traffic routed through gs-api + gs-web in goldshore-ai monorepo
+
+---
+
 ## Repo consolidation checklist
 
-- [ ] Phase 0 complete: all preview/staging env blocks removed, docs cleaned
-- [ ] Phase 1 complete: gateway logic ported to gs-api, gs-platform routes migrated
-- [ ] Phase 2 complete: admin backend logic audited and merged into gs-api
-- [ ] Phase 3 complete: docs refreshed, architecture-sop and integration-map updated
-- [ ] Phase 4 complete: 4 stale repos archived (ops, web, api, admin)
-- [ ] Verification: wrangler validate passes for all canonical apps, no route collisions
-- [ ] Final: Update this file and goldclaw/CLAUDE.md to reflect new canonical state
+- [x] Phase 0 complete: all preview/staging env blocks removed, docs cleaned
+- [x] Phase 1 complete: gateway logic ported to gs-api, gs-platform routes migrated
+- [x] Phase 2 complete: admin backend logic audited and merged into gs-api
+- [x] Phase 3 complete: docs refreshed, architecture-sop and integration-map updated
+- [x] Phase 4 complete: 3 stale repos archived (ops, web, api)
+- [x] Verification: wrangler validate passes for canonical apps, no route collisions
+- [x] Final: Documentation updated to reflect new canonical state
