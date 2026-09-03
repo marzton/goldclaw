@@ -6,6 +6,18 @@ It absorbs the planned `claude-codex` role: a shared reference for AI agents
 
 No deployable code lives here. This repo is agent-facing documentation and ops only.
 
+> **Note (GSC-0001, 2026-09-03):** this repo also contains `src/worker.js`,
+> `workers/`, `wrangler.jsonc`, and `server.js` — Worker/MCP-server code
+> that predates this "no deployable code" statement. That's a documented
+> drift, not a contradiction to silently paper over — see `CANON.md`
+> ("Goldclaw's current role").
+
+**Read `FOUNDATIONS.md`, `CANON.md`, `LEXICON.md`, and `REGISTRY.yaml`
+first.** They are the shared Gold Shore Cortex (GSC) canon and are
+authoritative over anything below — this file stays a thin pointer, not a
+duplicate. See `docs/HANDOFF.md` for the cross-agent handoff protocol and
+`docs/CAPABILITIES.md` for the runtime capability manifest format.
+
 ---
 
 ## What lives here

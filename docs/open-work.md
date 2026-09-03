@@ -4,6 +4,51 @@ Running log of in-flight PRs, blockers, and pending actions across goldshore rep
 Update when status changes. Most-recent entries at the top of each section.
 
 > Full refresh: 2026-08-17 · Consolidated consolidation tasks under Phase 0–4 roadmap.
+> 2026-09-03: GSC-0001 canon bootstrap landed (see below) — read `FOUNDATIONS.md`/`CANON.md`/`LEXICON.md`/`REGISTRY.yaml` before starting new cross-repo work.
+
+---
+
+## GSC-0001 — Cortex canon bootstrap (this pass)
+
+**Status:** ✅ Canon phase complete, PR open, awaiting Rob's review/approval
+before any GSC-0002+ implementation (per issue #58 stopping point).
+
+Created: `FOUNDATIONS.md`, `CANON.md`, `LEXICON.md`, `NAMING.md`,
+`REGISTRY.yaml`, `docs/DECISIONS/ADR-0001-system-taxonomy.md`,
+`docs/HANDOFF.md`, `docs/CAPABILITIES.md`. Adjusted `AGENTS.md` and
+`CLAUDE.md` to point at the new canon (thin adapters, no doctrine
+duplicated).
+
+GitHub access for this pass was scoped to `marzton/goldclaw` only — facts
+about other repos in `REGISTRY.yaml`/`CANON.md` are carried over from this
+repo's existing docs, not freshly re-audited. See `CANON.md` "Verification
+scope for this pass."
+
+### Follow-on tasks drafted (not executed)
+
+**GSC-0002 — Capability inventory across runtimes**
+Produce a filled-in `docs/CAPABILITIES.md` manifest for each of: ChatGPT
+(web/mobile), Codex (app/CLI), Claude (web/app), Claude Code, Gemini,
+Gemini CLI, AI Studio, local PCs (Windows HP laptop, Linux workstation),
+and Android/Termux. Requires actually running a capability-discovery pass
+from each surface, not inference from this document. Also a natural place
+to widen GitHub scope and independently re-audit `goldshore-ai`,
+`gearswipe.com`, `risk-radar`, `rmarston-com`, `Marston-Portfolio`, and any
+additional legacy Gold Shore repos flagged `verify` in `REGISTRY.yaml`.
+
+**GSC-0003 — First structured cross-agent continuation proof**
+Agent A begins a small, real task and writes a Cortex-compatible handoff
+per `docs/HANDOFF.md`. Agent B (different vendor/runtime) resumes using
+only that handoff — no prior transcript — verifies the completed portion,
+and continues. Record the result (did it work without back-and-forth
+reconstruction?) as the first empirical test of the handoff protocol.
+
+**GSC-0004 — Cortex preview infrastructure bootstrap**
+Only after canon approval. Potential preview resources: `gsc-api-preview`,
+`gsc-web-preview`, `gsc-mcp-preview` (Workers); `gsc-core-preview` (D1);
+config/cache/ephemeral KV; artifact/handoff R2 storage; events/jobs queue.
+Not created in GSC-0001 — explicitly out of scope until Rob approves the
+canon and this task is separately authorized.
 
 ---
 
