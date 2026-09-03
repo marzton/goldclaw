@@ -103,6 +103,33 @@ answered independently of "does `goldclaw` currently receive traffic at
 `mcp.goldshore.ai`, and is `gs-mcp` real, planned, or abandoned?"** — that
 requires the domain/route binding this session's tools cannot read.
 
+## Additional finding: this repo auto-deploys `goldclaw` to production on push
+
+While this PR was open, Cloudflare's GitHub Git-integration bot posted a
+"Deployment successful" build status against this very branch
+(`claude/cortex-setup-state-p6i4c4`, commit `838c02b8`) for the `goldclaw`
+Worker's **production** build
+(`.../workers/services/view/goldclaw/production/builds/...`). That commit
+contained **no code changes** — it only added documentation
+(`docs/artifacts/ART-GSC-UI-0001.md`, `docs/open-work.md`). Cloudflare
+still rebuilt and redeployed the Worker to production from it.
+
+This means `goldclaw`'s Cloudflare Workers Build is wired directly to this
+GitHub repository (likely on push to any branch, not just `main`/merge),
+independent of PR review or merge state. That has two consequences beyond
+this ADR's naming question:
+
+1. It is now-verified evidence that **`goldclaw`'s Worker code is live and
+   continuously deployed**, resolving one of `CANON.md`'s prior `verify`
+   items ("whether `goldclaw`'s Worker code is currently deployed/live") —
+   yes, it is, and automatically so on every push.
+2. Every future branch push to this repo — including doc-only ones — has
+   the side effect of a production redeploy. That's worth a human decision
+   independent of this ADR (whether that's intended CI/CD behavior or an
+   overly broad build trigger that should be scoped to `main`), but it is
+   out of scope to change here: this ADR only records the observation,
+   consistent with "record drift, don't silently reconcile."
+
 ## Decision
 
 **Keep the Worker named `goldclaw` for this pass. Do not rename it now.**
