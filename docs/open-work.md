@@ -8,29 +8,6 @@ Update when status changes. Most-recent entries at the top of each section.
 
 ---
 
-## ART-GSC-UI-0002 — second Cortex UI concept registered (proposed, not accepted)
-
-**Status:** 📝 Recorded for canon continuity. Not accepted, not competing
-for implementation priority against ART-GSC-UI-0001 until a decision is
-made.
-
-An externally-submitted design ("Cortex — Topology Command": a node-graph
-view of repo/task/device/agents with a command composer and a
-git-before/after handoff inspector) was registered as
-`docs/artifacts/ART-GSC-UI-0002.md`. It answers a different half of the
-visual-interface brief than `ART-GSC-UI-0001` (execution/topology depth
-vs. attention/approvals breadth) and its "Selected run" inspector maps
-closely onto `docs/HANDOFF.md`'s required fields — worth preserving
-whichever direction wins. See the artifact doc for the full comparison
-table and open questions (unverified "Gateway online" signal, no CLAW
-telemetry pipeline exists yet, ambiguous "Claude Review"/"Dispatch"
-approval scoping).
-
-**Needs a decision from Rob:** merge as two views of one console, pick
-one, or reject this submission — not an agent call.
-
----
-
 ## `goldclaw` Cloudflare Worker naming review (this pass)
 
 **Status:** ✅ Review complete, recorded as `docs/DECISIONS/ADR-0002-goldclaw-worker-naming.md`.
