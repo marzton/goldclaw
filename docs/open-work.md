@@ -8,6 +8,45 @@ Update when status changes. Most-recent entries at the top of each section.
 
 ---
 
+## `goldclaw` Cloudflare Worker naming review (this pass)
+
+**Status:** ✅ Review complete, recorded as `docs/DECISIONS/ADR-0002-goldclaw-worker-naming.md`.
+**Decision:** Keep the Worker named `goldclaw` for now — do not rename.
+
+Requested: review the live `goldclaw` Cloudflare Worker
+(account `f77de112d2019e5456a3198a8bb50bd2`, Gold Shore Labs) against
+`NAMING.md`/canon conventions and decide whether it should be renamed.
+Findings, most important first:
+
+1. **The documented `gs-mcp` Worker does not exist** in either Cloudflare
+   account this session could reach — `docs/cf-infrastructure.md` and
+   `docs/integration-map.md`'s claim that `mcp.goldshore.ai` → `gs-mcp` is
+   stale/wrong per live state.
+2. The live `goldclaw` Worker's own code is an unfinished OAuth
+   front-door for an MCP transport — suspicious alongside (1), but this
+   session's tooling **cannot read the Worker's bound custom domain/route**,
+   so whether `goldclaw` is actually serving `mcp.goldshore.ai` traffic
+   today is unverified. **Action for a human or an agent with dashboard
+   access:** check the Domains & Routes tab at
+   `dash.cloudflare.com/f77de112d2019e5456a3198a8bb50bd2/workers/services/view/goldclaw/production/domains`
+   and report back what domain(s) are bound.
+3. New name collision recorded in `LEXICON.md`: the Cloudflare Worker
+   `goldclaw` is unrelated to the documented **"GoldClaw"** operator/socials
+   surface that already exists inside `goldshore-ai` (`/goldclaw/*` routes
+   in `apps/gs-api`, admin UI at `goldshore.ai/admin/goldclaw`).
+4. No rename executed — GSC-0001's stop conditions (no Cloudflare/Worker
+   changes without approval) apply, and renaming to the best-fitting name
+   (`gsc-mcp`) now would claim a `RESERVED` Cortex surface ahead of
+   GSC-0004. Full setting-by-setting review and the decision rationale are
+   in the ADR.
+
+**Recommended next step:** verify the domain binding (item 2), then decide
+whether `goldclaw` is decommissioned (if `gs-api`'s MCP route already
+covers this, per `docs/architecture-sop.md` §2.3) or renamed to `gsc-mcp`
+once GSC-0004 actually starts.
+
+---
+
 ## GSC-0003 — Cortex visual preview shell, Phase A (design artifact)
 
 **Status:** ✅ Phase A design artifact registered. Implementation (Phase B+)

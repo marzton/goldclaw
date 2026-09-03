@@ -125,3 +125,22 @@ unrelated to GSC-0001. GSC-0001 work lives on its own branch
   `goldshore-core`, `goldshore-gateway`, `goldshore-org`; the bootstrap
   prompt also lists `goldshore`, `goldshore-labs` as potential additional
   legacy repos not otherwise evidenced in this pass.
+- **The `gs-mcp` Worker does not exist.** `docs/cf-infrastructure.md` and
+  `docs/integration-map.md` both document `mcp.goldshore.ai` as served by a
+  Worker named `gs-mcp`. A live `workers_list` check (2026-09-03) against
+  both Cloudflare accounts reachable from this session (Gold Shore Labs
+  `f77de112d2019e5456a3198a8bb50bd2`: 11 Workers; and
+  `d86cd71f0d1c8b8e08928a32e0c95ae3`: 0 Workers) found no Worker by that
+  name in either. Per the source-of-truth order above, live Cloudflare
+  state wins — `gs-mcp` is either undeployed, deleted, or renamed, and the
+  docs referencing it are stale. See
+  `docs/DECISIONS/ADR-0002-goldclaw-worker-naming.md`.
+- **Whether the `goldclaw` Cloudflare Worker actually serves
+  `mcp.goldshore.ai`.** The live Worker named `goldclaw` runs OAuth
+  front-door/discovery code that self-describes as intended for an MCP
+  transport (`resource_name: "GoldShore MCP Portal"`), which is suspicious
+  alongside the missing `gs-mcp` Worker above — but this session's
+  Cloudflare tooling cannot read the Worker's bound custom domain/routes to
+  confirm it. Verify from the dashboard's Domains & Routes tab for that
+  Worker, or via `wrangler` with account access, before deciding whether
+  `goldclaw` is live production MCP traffic or an unused scaffold.
