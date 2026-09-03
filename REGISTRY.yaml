@@ -1,0 +1,329 @@
+# REGISTRY.yaml — Gold Shore Cortex Universal Resource Registry (seed)
+#
+# Machine-readable registry of systems, resources, and lineage.
+# This is the GSC-0001 seed: hand-authored, not yet served by any Cortex
+# service (none exists — see CANON.md "Cortex status"). Future tooling
+# (gs-ledger / Resource Registry, per LEXICON.md and the bootstrap doctrine)
+# should read and extend this shape rather than reinvent it.
+#
+# Field meanings, per resource entry:
+#   stable_id    - durable ID, does not change when human_name changes
+#   human_name   - current display name
+#   class        - organization | platform | product | service | executor |
+#                  workflow | protocol | skill | agent | artifact | project |
+#                  experiment | repository | domain | runtime | database |
+#                  queue | bucket | worker | provider | identity |
+#                  historical-venture | legacy-venture | concept
+#   status       - ACTIVE | TRANSITIONING | INCUBATING | EXPERIMENTAL |
+#                  DORMANT | LEGACY | SUPERSEDED | ARCHIVED | HISTORICAL |
+#                  RESERVED
+#   canonical_repo / canonical_path - where the thing lives, if applicable
+#   domains      - associated domain names
+#   parent / successor / predecessor / influences - lineage
+#   runtime_owner - who/what currently owns operating it
+#   providers    - external providers this resource depends on
+#   verification - verified | unknown | verify
+#   notes        - free text, including what still needs checking
+
+schema_version: 1
+generated_by: "GSC-0001 bootstrap (marzton/goldclaw)"
+generated_at: "2026-09-03"
+verification_scope_note: >
+  GitHub access for this pass was scoped to marzton/goldclaw only. Entries
+  for other repos are carried over from goldclaw's existing docs
+  (docs/repo-index.md, docs/architecture-sop.md, docs/cf-infrastructure.md,
+  docs/open-work.md) and are NOT freshly re-audited against those repos'
+  own manifests in this pass. See each entry's `verification` field.
+
+resources:
+
+  - stable_id: ORG-GOLDSHORE
+    human_name: Gold Shore
+    class: organization
+    status: ACTIVE
+    domains: [goldshore.ai, goldshore.org]
+    parent: null
+    verification: verified
+    notes: >
+      Umbrella organization/brand for the goldshore.ai (commercial AI
+      product) and goldshore.org (data intelligence/research/trading)
+      domains.
+
+  - stable_id: REPO-GOLDSHORE-AI
+    human_name: goldshore-ai
+    class: repository
+    status: ACTIVE
+    canonical_repo: marzton/goldshore-ai
+    canonical_path: "apps/gs-web, apps/gs-api"
+    domains: [goldshore.ai, api.goldshore.ai]
+    parent: ORG-GOLDSHORE
+    runtime_owner: gs-api (Worker), gs-web (Astro)
+    verification: verify
+    notes: >
+      Treated as the current canonical goldshore.ai production monorepo per
+      docs/repo-index.md and docs/architecture-sop.md (decided 2026-07-12).
+      Not independently re-audited from live manifests in this pass — carry
+      forward from goldclaw's existing docs.
+
+  - stable_id: REPO-GOLDSHORE-ORG
+    human_name: goldshore
+    class: repository
+    status: ACTIVE
+    canonical_repo: marzton/goldshore
+    domains: [goldshore.org]
+    parent: ORG-GOLDSHORE
+    runtime_owner: "goldshore-agent, goldshore-api, goldshore-mcp, goldshore-web (per docs/repo-index.md)"
+    verification: verify
+    notes: Broker integrations (Fidelity, Robinhood, TOS) per docs/repo-index.md.
+
+  - stable_id: GSC-CORTEX
+    human_name: Gold Shore Cortex
+    class: platform
+    status: RESERVED
+    canonical_repo: marzton/goldclaw
+    canonical_path: "/ (this document set)"
+    parent: ORG-GOLDSHORE
+    successor_of: REPO-GOLDCLAW
+    verification: verified
+    notes: >
+      Planned/incubating. No infrastructure exists. This registry entry
+      represents the canon phase only (GSC-0001). Meaning:
+      Continuity/Orchestration/Registry/Tasking/Execution/eXchange — see
+      FOUNDATIONS.md.
+
+  - stable_id: REPO-GOLDCLAW
+    human_name: Goldclaw
+    class: repository
+    status: TRANSITIONING
+    canonical_repo: marzton/goldclaw
+    parent: ORG-GOLDSHORE
+    successor: GSC-CORTEX
+    verification: verified
+    notes: >
+      Temporary pre-Cortex coordination repository. Predecessor/historical
+      lineage for the CLAW concept. Not renamed by GSC-0001. Contains a
+      drift: repo docs (AGENTS.md, CLAUDE.md) disagree with each other and
+      with repo contents about whether deployable code belongs here — see
+      CANON.md "Goldclaw's current role."
+
+  - stable_id: TNG-TANGENT
+    human_name: TANGENT
+    class: platform
+    status: RESERVED
+    domains: [tangentmachine.com]
+    parent: ORG-GOLDSHORE
+    verification: verified
+    notes: >
+      Task & Agent Network for Governed Execution, Navigation & Telemetry.
+      Routing/capability-resolution/scheduling/telemetry fabric. Domain
+      tangentmachine.com is a reserved candidate identity; NOT repointed.
+      No infrastructure exists yet.
+
+  - stable_id: CLAW-CONCEPT
+    human_name: CLAW (Cortex Local Action Worker)
+    class: executor
+    status: RESERVED
+    predecessor: REPO-GOLDCLAW
+    parent: ORG-GOLDSHORE
+    verification: verified
+    notes: >
+      Local/device execution node concept (laptop, workstation,
+      Android/Termux, future server/NAS/VM). No CLAW nodes formally
+      registered yet.
+
+  - stable_id: GSW-GEARSWIPE
+    human_name: GearSwipe
+    class: product
+    status: ACTIVE
+    canonical_repo: marzton/gearswipe.com
+    domains: [gearswipe.com]
+    parent: ORG-GOLDSHORE
+    influenced_by: [SFNY-SOLEFOODNY]
+    verification: verify
+    notes: >
+      Treated as canonical per issue GSC-0001 constraints. Not
+      independently re-audited from the gearswipe.com repo in this pass.
+      Model: object -> provenance -> evidence -> identity -> historical
+      context -> modern relationships -> editorial -> community -> commerce
+      -> archive -> rediscovery.
+
+  - stable_id: BK-BRIDGEKEEPER
+    human_name: Bridgekeeper
+    class: workflow
+    status: ACTIVE
+    parent: GSW-GEARSWIPE
+    verification: unknown
+    notes: >
+      GearSwipe-scoped historical-to-modern interpretation/discovery layer.
+      NOT the general Cortex router (that is TNG-TANGENT). Operates
+      primarily in interpretation/connection, not canonical fact storage.
+      Implementation status/location not verified this pass.
+
+  - stable_id: RR-RISKRADAR
+    human_name: Risk Radar
+    class: product
+    status: ACTIVE
+    canonical_repo: marzton/risk-radar
+    parent: ORG-GOLDSHORE
+    influenced_by: [FF-FORTUNEFUND]
+    verification: verify
+    notes: >
+      Referenced by the current in-flight cross-repo branch
+      (claude/risk-radar-fra-epo-2wk5mk, see docs/repo-index.md). Repo
+      existence/content not independently confirmed in this pass.
+
+  - stable_id: PER-RMARSTON
+    human_name: rmarston.com / Robert Marston personal portfolio
+    class: identity
+    status: ACTIVE
+    canonical_repo: "marzton/rmarston-com and/or marzton/Marston-Portfolio"
+    domains: [rmarston.com]
+    parent: PER-SCOPE
+    verification: verify
+    notes: >
+      Two candidate repos named in the bootstrap task
+      (marzton/rmarston-com, marzton/Marston-Portfolio); relationship
+      between them (same site? separate?) not verified this pass.
+
+  - stable_id: PER-SCOPE
+    human_name: Personal / Robert Marston scope
+    class: organization
+    status: ACTIVE
+    verification: verified
+    notes: Distinct from Gold Shore. rmarston.com belongs here, not under Gold Shore.
+
+  - stable_id: SFNY-SOLEFOODNY
+    human_name: SoleFoodNY / SoleFood NY
+    class: historical-venture
+    status: HISTORICAL
+    domains: [solefoodny.com]
+    influences: [GSW-GEARSWIPE]
+    verification: verify
+    notes: >
+      Historical resale/editorial venture. Influenced GearSwipe; NOT merged
+      into GearSwipe's current canonical state. Represent as
+      "SFNY --influenced--> GearSwipe", not as identity/successor.
+
+  - stable_id: FF-FORTUNEFUND
+    human_name: Fortune Fund
+    class: historical-venture
+    status: HISTORICAL
+    domains: [fortune-fund.com]
+    influences: [RR-RISKRADAR]
+    verification: verify
+    notes: >
+      Legacy AI/financial-signal/risk experiment. Possible precursor
+      relationship to Gold Shore financial/signal work and Risk Radar.
+      Do NOT assert a stronger successor relationship than "possible
+      precursor" without further evidence.
+
+  # --- Legacy Gold Shore repositories (per docs/repo-index.md) ---
+
+  - stable_id: REPO-GOLDSHORE-GATEWAY
+    human_name: goldshore-gateway
+    class: repository
+    status: LEGACY
+    canonical_repo: marzton/goldshore-gateway
+    successor: REPO-GOLDSHORE-AI
+    parent: ORG-GOLDSHORE
+    verification: verify
+    notes: >
+      gs-platform Worker; routing consolidated into gs-api per
+      docs/architecture-sop.md §1. Archive candidate pending traffic
+      verification (docs/open-work.md Phase 4).
+
+  - stable_id: REPO-GOLDSHORE-CORE
+    human_name: goldshore-core
+    class: repository
+    status: LEGACY
+    canonical_repo: marzton/goldshore-core
+    successor: REPO-GOLDSHORE-AI
+    parent: ORG-GOLDSHORE
+    verification: verify
+    notes: >
+      banproof-me Worker; security/ban-check called by gateway on every
+      request. Migration target is apps/gs-api routes/queues in
+      goldshore-ai; do not create a new apps/* Worker.
+
+  - stable_id: REPO-GOLDSHORE-ADMIN
+    human_name: goldshore-admin
+    class: repository
+    status: LEGACY
+    canonical_repo: marzton/goldshore-admin
+    successor: REPO-GOLDSHORE-AI
+    parent: ORG-GOLDSHORE
+    domains: [admin.goldshore.org]
+    verification: verify
+    notes: >
+      Legacy SaaS billing UI (Pages) + subscription CRUD; superseded by
+      gs-web/gs-api /admin/* routes. Keep standalone until an explicit
+      admin migration plan is approved (docs/repo-index.md).
+
+  - stable_id: REPO-GOLDSHORE-API
+    human_name: goldshore-api
+    class: repository
+    status: SUPERSEDED
+    canonical_repo: marzton/goldshore-api
+    successor: REPO-GOLDSHORE-AI
+    parent: ORG-GOLDSHORE
+    verification: verify
+    notes: Rebuild-target duplicate; live routes are in goldshore-ai. Archive candidate.
+
+  - stable_id: REPO-GOLDSHORE-OPS
+    human_name: goldshore-ops
+    class: repository
+    status: SUPERSEDED
+    canonical_repo: marzton/goldshore-ops
+    parent: ORG-GOLDSHORE
+    verification: verify
+    notes: KV template stub, never built, no CI. Archive candidate.
+
+  - stable_id: REPO-GOLDSHORE-WEB
+    human_name: goldshore-web
+    class: repository
+    status: SUPERSEDED
+    canonical_repo: marzton/goldshore-web
+    successor: REPO-GOLDSHORE-AI
+    parent: ORG-GOLDSHORE
+    verification: verify
+    notes: Deprecated Pages project, superseded by gs-web in goldshore-ai monorepo.
+
+  - stable_id: REPO-GOLDSHORE-ORG-SITE
+    human_name: goldshore-org
+    class: repository
+    status: DORMANT
+    canonical_repo: marzton/goldshore-org
+    parent: ORG-GOLDSHORE
+    verification: verify
+    notes: ".org site repo; status TBD per docs/repo-index.md."
+
+  # --- Providers ---
+
+  - stable_id: PROVIDER-CLOUDFLARE
+    human_name: Cloudflare
+    class: provider
+    status: ACTIVE
+    verification: verified
+    notes: >
+      Account: Gold Shore Labs, account_id f77de112d2019e5456a3198a8bb50bd2.
+      24 Workers, 28 KV namespaces, 6 D1 databases, 7 R2 buckets as of
+      docs/cf-infrastructure.md (verified live 2026-07-08 per that doc; not
+      re-verified in this pass). Hosts goldshore.ai, goldshore.org,
+      armsway.com, banproof.me routes.
+
+  - stable_id: PROVIDER-HOSTGATOR
+    human_name: HostGator
+    class: provider
+    status: ACTIVE
+    verification: unknown
+    notes: >
+      Named in bootstrap doctrine as a provider/resource-owner relationship
+      to model where evidence exists. No specific domain/resource evidence
+      captured in this pass — verify.
+
+  - stable_id: PROVIDER-GITHUB
+    human_name: GitHub
+    class: provider
+    status: ACTIVE
+    verification: verified
+    notes: Hosts all marzton/* repositories referenced in this registry.
