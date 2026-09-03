@@ -4,6 +4,8 @@
   "private": true,
   "description": "Goldclaw collaboration repo for Goldshore planning, MCP, and Cloudflare Worker experiments.",
   "scripts": {
+    "cortex:dev": "node cortex/server.mjs",
+    "cortex:test": "node --test cortex/tests/*.test.mjs",
     "build": "npm --prefix workers/goldshore ci && npm --prefix workers/goldshore run check && node scripts/build-pages.js",
     "check": "npm --prefix workers/goldshore run check",
     "worker:dev": "npm --prefix workers/goldshore run dev",

@@ -1,0 +1,14 @@
+{
+  "devices": [{ "id": "CLAW-HP", "label": "CLAW-HP", "status": "local" }],
+  "repositories": [{ "id": "REPO-GOLDCLAW", "label": "Goldclaw", "path": "." }],
+  "tasks": [{ "id": "GSC-0003A", "label": "Cortex Command Surface vertical slice" }],
+  "agents": [
+    { "id": "codex", "label": "Codex", "adapter": "codex" },
+    { "id": "claude", "label": "Claude Code", "adapter": "claude" }
+  ],
+  "context": {
+    "files": ["FOUNDATIONS.md", "CANON.md", "REGISTRY.yaml", "docs/HANDOFF.md"],
+    "skills": ["goldshore-platform-operations", "task-planner"],
+    "plugins": []
+  }
+}
