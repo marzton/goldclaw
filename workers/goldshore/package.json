@@ -23,7 +23,7 @@
     "tail:production": "wrangler tail goldshore-production"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "5.20260722.1",
+    "@cloudflare/workers-types": "5.20260903.1",
     "typescript": "5.8.3",
     "wrangler": "4.120.0"
   }
