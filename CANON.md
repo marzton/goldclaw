@@ -117,14 +117,17 @@ unrelated to GSC-0001. GSC-0001 work lives on its own branch
   this canon (not independently audited this pass).
 - Whether `risk-radar`, `rmarston-com`, and `Marston-Portfolio` repos exist
   under those exact names/paths and what they currently deploy.
-- ~~Whether `goldclaw`'s own Worker code (`src/worker.js`, `workers/`) is
-  currently deployed/live.~~ **Resolved 2026-09-03:** yes — Cloudflare's
-  GitHub Git-integration bot confirmed a production build/deploy of
-  `goldclaw` triggered directly by a push to a feature branch carrying a
-  docs-only commit (no code changes), meaning the Worker's Cloudflare
-  Workers Build is wired to this repo and deploys to production on push,
-  independent of PR merge state. See
-  `docs/DECISIONS/ADR-0002-goldclaw-worker-naming.md` "Additional finding."
+- Whether `goldclaw`'s own Worker code (`src/worker.js`, `workers/`) is
+  currently deployed and serving *live traffic*. **Partially narrowed,
+  2026-09-03, still disputed:** Cloudflare's GitHub Git-integration bot
+  confirmed a "production" build/deploy fires on a push to a non-`main`
+  feature branch carrying a docs-only commit — so the Worker's Cloudflare
+  Workers Build is wired to this repo and does something on every push,
+  independent of PR merge state. Whether that something is a live traffic
+  shift or just a new version upload is contested by a separate,
+  independent investigation of this same repo — see
+  `docs/DECISIONS/ADR-0002-goldclaw-worker-naming.md` "Additional finding"
+  for both readings; not resolved without a live dashboard check.
 - `goldshore-org` status.
 - Full legacy Gold Shore repo list — `docs/repo-index.md` names
   `goldshore-ops`, `goldshore-web`, `goldshore-api`, `goldshore-admin`,

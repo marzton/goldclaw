@@ -115,20 +115,32 @@ contained **no code changes** — it only added documentation
 still rebuilt and redeployed the Worker to production from it.
 
 This means `goldclaw`'s Cloudflare Workers Build is wired directly to this
-GitHub repository (likely on push to any branch, not just `main`/merge),
-independent of PR review or merge state. That has two consequences beyond
-this ADR's naming question:
+GitHub repository and fires on push to a non-`main` branch. **What this
+does and does not prove needs a correction from the first version of this
+finding:** a separate investigation into this same repo (recorded in the
+GS Cortex Drive workspace, `Property Inventory/Provider Evidence/GITHUB-GSC-REPO-2026-09-03.md`)
+disputes the strong claim originally made here — it reports that
+non-`main` Git-integration builds upload a new Worker *version* but do not
+necessarily move active production *traffic*, and that a Cloudflare build
+check completing proves a build/version operation, not that routed
+traffic changed. That is a real, unresolved disagreement between two
+independent read-only investigations, not something either side can
+adjudicate from documentation alone — it needs live Cloudflare dashboard
+evidence (which version is bound to the active deployment / traffic
+splits) to settle. Recorded as drift per "record drift, don't silently
+reconcile," not asserted either way:
 
-1. It is now-verified evidence that **`goldclaw`'s Worker code is live and
-   continuously deployed**, resolving one of `CANON.md`'s prior `verify`
-   items ("whether `goldclaw`'s Worker code is currently deployed/live") —
-   yes, it is, and automatically so on every push.
-2. Every future branch push to this repo — including doc-only ones — has
-   the side effect of a production redeploy. That's worth a human decision
-   independent of this ADR (whether that's intended CI/CD behavior or an
-   overly broad build trigger that should be scoped to `main`), but it is
-   out of scope to change here: this ADR only records the observation,
-   consistent with "record drift, don't silently reconcile."
+1. **Not confirmed:** whether `goldclaw`'s Worker code is continuously
+   redeployed to *live, traffic-serving* production on every push, or only
+   has a new version uploaded without traffic shifting. `CANON.md`'s prior
+   `verify` item on this is left open, not resolved, pending that dashboard
+   check.
+2. **Confirmed either way:** `goldclaw`'s Cloudflare Workers Build is wired
+   to this GitHub repository and does *something* (at minimum, build a new
+   version) on every push, including doc-only ones — independent of PR
+   review or merge state. Whether that's intended CI/CD behavior or an
+   overly broad build trigger that should be scoped to `main` is a human
+   decision, out of scope to change here.
 
 ## Decision
 
