@@ -149,3 +149,22 @@ approval_required: "None — design registration only, no production action take
 recommended_next_capability: "None beyond what this session already has; Phase B implementation will need Cloudflare D1 preview write."
 recommended_next_agent: "Codex — implementation owner once Phase B ledger work begins."
 ```
+
+## Drive mirror record
+
+Mirrored into the GS Cortex Drive workspace per `docs/DRIVE_MIRROR.md`
+(`Artifacts/Accepted/`, folder ID `12Z8npyuQvooUWPeCl0MVlML015SRFE8L`), at
+Rob's request on PR #68's review (2026-09-04), tracked as Linear GSC-0006 /
+GOL-10. Both items link back here via a commit-pinned GitHub URL.
+
+| Item | Drive file ID | URL |
+|---|---|---|
+| Native Doc (human-readable summary) | `1btz_biLdTrIjWkkFVx0762OoiTjaIU9EbVxpFpLY2AA` | https://docs.google.com/document/d/1btz_biLdTrIjWkkFVx0762OoiTjaIU9EbVxpFpLY2AA/edit |
+| Raw Markdown (portable, agent-readable) | `1w11ab0pfpofYASK7D_yIavCnRC8cQhrc` | https://drive.google.com/file/d/1w11ab0pfpofYASK7D_yIavCnRC8cQhrc/view |
+
+**Verification:** confirmed the `Artifacts/Accepted/` folder ID via
+`get_file_metadata` before writing (still valid, still that title/parent);
+confirmed both files landed in that parent via `search_files` after
+writing (`parentId = '12Z8npyuQvooUWPeCl0MVlML015SRFE8L' and title
+contains 'ART-GSC-UI-0002'` returned both). Commit pinned in both Drive
+items: `a1b54d00c5267dda16b5bcff918c0ecd1e61da42`.
