@@ -30,6 +30,7 @@ duplicate. See `docs/HANDOFF.md` for the cross-agent handoff protocol and
 | `docs/cf-infrastructure.md` | Complete Cloudflare resource map: Workers, KV, D1, R2, Access Applications |
 | `docs/integration-map.md` | Master cross-subsystem integration map — how Web, Gateway, Signals, Ops, Org, AI, API, MCP, Admin, Socials, Trading, Pages, email, OAuth, agents, and devices share information across goldshore.ai + goldshore.org |
 | `docs/architecture-sop.md` | **Canonical target architecture (decided).** Domain-by-domain ownership (website/admin/API+gateway+MCP+GoldClaw/mail/database/workflow/subscription), repo→role map, naming conventions, and phased execution roadmap. Read this before proposing new Workers or repos. |
+| `docs/DRIVE_MIRROR.md` | Convention for mirroring artifacts, decisions, and handoffs into the GS Cortex Google Drive workspace — folder IDs, category→folder mapping, and what triggers a mirror-write. |
 
 ---
 
