@@ -82,6 +82,72 @@ recommended_next_capability: "GitHub read access to goldshore-ai, gearswipe.com,
 recommended_next_agent: "Any agent with broadened repo access — task is read/audit, not implementation"
 ```
 
+## Optional extension: live agent-to-agent transfer record
+
+The required fields above cover a handoff written to a durable location
+(`docs/open-work.md`, a PR, an issue comment) by an agent ending its turn.
+A **live transfer** — one agent's runtime handing a task directly to
+another agent's runtime, both active in the same session/tool (e.g. a
+future Cortex console driving Codex → Claude Code) — needs a few
+additional fields to be independently verifiable, not just described. This
+extension is informed by the `ART-GSC-UI-0002` "Topology Command" design
+concept (see `docs/artifacts/ART-GSC-UI-0002.md`) and is the target shape
+for GSC-0003's continuation proof.
+
+```yaml
+run_id: run_7f2a9c1b            # unique per transfer attempt
+task_id: GSC-0003A
+from_agent: codex
+to_agent: claude-code
+started_at: "2026-09-03T14:22:08Z"
+completed_at: "2026-09-03T14:22:10Z"
+status: complete                # complete | failed | in_progress
+git_before:
+  repo: goldclaw
+  branch: feature/cortex-cmd
+  commit: a1c9d4e
+  author: codex-bot
+  time: "2026-09-03T14:21:02Z"
+git_after:
+  repo: goldclaw
+  branch: feature/cortex-cmd
+  commit: b7e3f19
+  author: claude-code-bot
+  time: "2026-09-03T14:22:11Z"
+  changes: "+12 -1"
+  message: "chore: implement cortex command surface vertical slice"
+sessions:
+  from_agent_session: cxs_3k8m7d9p
+  to_agent_session: ccs_9n4v2q1r
+handoff_state:                  # ordered checklist, each stage timestamped once reached
+  - stage: package_created
+    at: "2026-09-03T14:22:09Z"
+  - stage: transferred
+    at: "2026-09-03T14:22:10Z"
+  - stage: verified
+    at: "2026-09-03T14:22:10Z"
+  - stage: accepted
+    at: "2026-09-03T14:22:10Z"
+  - stage: now_executing
+    at: "2026-09-03T14:22:11Z"
+```
+
+The `git_before`/`git_after` pair is what makes a live transfer
+independently checkable without trusting either agent's self-report: the
+receiving agent's commit is verifiable against the sending agent's, same as
+the required-fields `commit` field but split so a diff (`changes`) is
+visible at the transfer boundary itself. `handoff_state` is a fixed,
+ordered checklist (package created → transferred → verified → accepted →
+now executing) — a transfer is not "done" until every stage before
+`now_executing` has a timestamp; a stage stuck without one for longer than
+the task's expected duration is the live-transfer equivalent of a stalled
+CI check and should be treated as `blockers` in the required-fields sense.
+
+This extension is additive — a handoff record satisfying the required
+fields above is still a complete, valid handoff without it. Use it when the
+transfer is live/tool-driven; use the required-fields-only form for a
+written, asynchronous handoff (the common case today, pre-Cortex).
+
 ## Rules
 
 - **Write the handoff before ending a session on unfinished work**, not
