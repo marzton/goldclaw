@@ -45,6 +45,43 @@ whether `goldclaw` is decommissioned (if `gs-api`'s MCP route already
 covers this, per `docs/architecture-sop.md` §2.3) or renamed to `gsc-mcp`
 once GSC-0004 actually starts.
 
+**Update 2026-09-04 (review round, GSC-0006 / GOL-10):** marzton reviewed
+PR #67 and requested four fixes before merge, all addressed in this round:
+
+```yaml
+task_id: GSC-0006 / GOL-10
+objective: >
+  Address marzton's PR #67 review checkpoint: make the Drive mirror's
+  raw-markdown placement convention explicit, pin GitHub links in Drive
+  summary Docs to commits instead of mutable branches, reconcile stale
+  Worker-count language in CLAUDE.md with a newer live observation, and
+  persist a structured handoff for this round.
+project: goldclaw
+repo: marzton/goldclaw
+path: "docs/DRIVE_MIRROR.md, CLAUDE.md, docs/open-work.md, three Drive Docs"
+environment: local
+branch: claude/cortex-setup-state-p6i4c4
+completed:
+  - "docs/DRIVE_MIRROR.md: made 'Doc + .md as siblings in the same folder' the explicit, final convention, and explained that Agent Bootstrap/Imports/ is a distinct older pattern, not the current rule."
+  - "docs/DRIVE_MIRROR.md: added the commit-pinned-link rule (canonical historical reference) alongside a separately labeled current-main/branch link, for every future mirrored Doc."
+  - "CLAUDE.md: labeled the 24-Worker/28-KV/6-D1/7-R2 figures as a 2026-07-08 historical snapshot, and recorded this session's live re-observation (11 Workers, same account) as a separate, unreconciled data point per CANON.md's source-of-truth order."
+  - "Recreated the three Drive summary Docs (ADR-0001, ADR-0002, ART-GSC-UI-0001) with commit-pinned + current-branch links, per the corrected convention."
+  - "Updated the Drive Handoffs/Current doc/.md pair to reflect this round."
+remaining:
+  - "Live Cloudflare dashboard check of goldclaw's bound domain(s) — still the open question from the original ADR-0002 review."
+  - "A full Cloudflare resource re-audit (KV/D1/R2 counts) — only the Worker count was re-checked this pass."
+tests: "None — documentation/convention fixes only, no code paths changed."
+evidence: "PR #67: https://github.com/marzton/goldclaw/pull/67"
+blockers: []
+decisions:
+  - "Doc+.md as same-folder siblings (not an Imports/ subfolder) is the final Drive-mirror convention, chosen to match what was actually implemented rather than move files to match the original plan."
+  - "CLAUDE.md's stale Worker count is labeled historical rather than overwritten, so the drift itself stays visible."
+artifacts: []
+approval_required: "None — documentation only, no production Cloudflare/DNS/IAM/secrets/billing changes."
+recommended_next_capability: "Cloudflare dashboard/route read access (still the same open item from the original ADR-0002 review)"
+recommended_next_agent: "Whoever has Cloudflare dashboard access, to resolve the domain-binding question"
+```
+
 ---
 
 ## GSC-0003 — Cortex visual preview shell, Phase A (design artifact)

@@ -80,19 +80,37 @@ is "durable, would-want-to-find-this-from-my-phone," not every commit.
 
 ## Format per item
 
-For each mirrored item, in its mapped folder, create **both**:
+For each mirrored item, in its mapped folder, create **both**, as siblings
+in the *same* folder (not split into an `Imports/` subfolder under that
+category):
 
 1. **A native Google Doc** — title matches the item's title (e.g. "ADR-0002
    — goldclaw Cloudflare Worker naming and setting review"). Body is a
    short human-readable summary (what it is, status/decision, key
-   findings) plus explicit links: the canonical GitHub file URL and, where
-   one exists, a live Artifact URL or PR URL. Not a full copy of the
-   markdown — a pointer with enough context to stand alone.
+   findings) plus explicit links:
+   - a **commit-pinned** GitHub blob URL
+     (`.../blob/<full-commit-sha>/<path>`) as the canonical historical
+     reference for the content this Doc summarizes — this is the link
+     that must keep pointing at the exact text being summarized, even
+     after the file changes again on `main`;
+   - a separate, clearly-labeled **current `main`** (or current PR branch,
+     while a decision/artifact is still unmerged) link for whoever wants
+     the latest version instead of the historical snapshot;
+   - and, where one exists, a live Artifact URL or PR URL.
+   Not a full copy of the markdown — a pointer with enough context to
+   stand alone.
 2. **A raw `.md` file** with the same content as the GitHub source,
-   uploaded alongside the Doc (`disableConversionToGoogleType: true`) —
-   the portable, agent-readable copy another runtime (Codex, Gemini) can
-   ingest directly, matching the pattern already established under
-   `Agent Bootstrap/Imports/`.
+   uploaded as a sibling of the Doc in the same folder
+   (`disableConversionToGoogleType: true`) — the portable, agent-readable
+   copy another runtime (Codex, Gemini) can ingest directly.
+
+**Why siblings, not `Imports/`:** `Agent Bootstrap/Imports/` is a distinct,
+older pattern that predates this convention (raw `.md` exports of the
+original bootstrap canon documents, dumped there before `DRIVE_MIRROR.md`
+existed). Don't extend that pattern to new categories — it would mean two
+different answers to "where's the `.md` copy of X" depending on when X was
+mirrored. Doc and `.md` sit next to each other going forward; this is the
+final convention, not a stopgap.
 
 ## Known limitation: this is not a substitute for a real Cortex state layer
 
