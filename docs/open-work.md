@@ -8,6 +8,41 @@ Update when status changes. Most-recent entries at the top of each section.
 
 ---
 
+## GSC-0003 — Cortex visual preview shell, Phase A (design artifact)
+
+**Status:** ✅ Phase A design artifact registered. Implementation (Phase B+)
+not started — see stop conditions below.
+
+Claude Code produced `ART-GSC-UI-0001-v1`, "Cortex Operating Console" — the
+first registered Cortex UI design artifact, per the visual-interface brief
+(`docs/artifacts/ART-GSC-UI-0001.md` has the full record, acceptance-criteria
+mapping, and design rationale). Rendered concept:
+https://claude.ai/code/artifact/be1bdf55-2034-4dae-a32a-3404ee1e297a
+
+This is a design concept only — no code was deployed, and no production
+Cloudflare/DNS/GitHub infrastructure was touched. It does not supersede or
+act on the GSC-0001 approval gate noted below; GSC-0002 (property/capability
+inventory) and any GSC-0003 Phase B+ implementation still await Rob's
+review/approval per issue #58's stated stopping point.
+
+**Recommended next agent:** Codex, for Phase B (structured D1 ledger +
+provider registry) once approved.
+
+**Update 2026-09-03:** registered a companion detail-view artifact,
+`ART-GSC-UI-0002-v1` "Cortex Topology Command"
+(`docs/artifacts/ART-GSC-UI-0002.md`), from a mockup Rob shared — the
+per-handoff detail screen ART-GSC-UI-0001 left undesigned. Used it to
+extend `docs/HANDOFF.md` with an optional "live agent-to-agent transfer
+record" schema (`git_before`/`git_after`, per-agent sessions, an ordered
+`handoff_state` checklist) — this is now the target shape for GSC-0003's
+actual continuation proof (Agent A hands a real task to Agent B via this
+schema, B resumes without the prior transcript, B verifies and continues).
+Still design/schema only — Phase B implementation (backing this with a
+real ledger instead of seed data) is unstarted and still gated on Rob's
+approval per issue #58.
+
+---
+
 ## GSC-0001 — Cortex canon bootstrap (this pass)
 
 **Status:** ✅ Canon phase complete, PR open, awaiting Rob's review/approval
