@@ -8,6 +8,82 @@ Update when status changes. Most-recent entries at the top of each section.
 
 ---
 
+## `goldclaw` Cloudflare Worker naming review (this pass)
+
+**Status:** ✅ Review complete, recorded as `docs/DECISIONS/ADR-0002-goldclaw-worker-naming.md`.
+**Decision:** Keep the Worker named `goldclaw` for now — do not rename.
+
+Requested: review the live `goldclaw` Cloudflare Worker
+(account `f77de112d2019e5456a3198a8bb50bd2`, Gold Shore Labs) against
+`NAMING.md`/canon conventions and decide whether it should be renamed.
+Findings, most important first:
+
+1. **The documented `gs-mcp` Worker does not exist** in either Cloudflare
+   account this session could reach — `docs/cf-infrastructure.md` and
+   `docs/integration-map.md`'s claim that `mcp.goldshore.ai` → `gs-mcp` is
+   stale/wrong per live state.
+2. The live `goldclaw` Worker's own code is an unfinished OAuth
+   front-door for an MCP transport — suspicious alongside (1), but this
+   session's tooling **cannot read the Worker's bound custom domain/route**,
+   so whether `goldclaw` is actually serving `mcp.goldshore.ai` traffic
+   today is unverified. **Action for a human or an agent with dashboard
+   access:** check the Domains & Routes tab at
+   `dash.cloudflare.com/f77de112d2019e5456a3198a8bb50bd2/workers/services/view/goldclaw/production/domains`
+   and report back what domain(s) are bound.
+3. New name collision recorded in `LEXICON.md`: the Cloudflare Worker
+   `goldclaw` is unrelated to the documented **"GoldClaw"** operator/socials
+   surface that already exists inside `goldshore-ai` (`/goldclaw/*` routes
+   in `apps/gs-api`, admin UI at `goldshore.ai/admin/goldclaw`).
+4. No rename executed — GSC-0001's stop conditions (no Cloudflare/Worker
+   changes without approval) apply, and renaming to the best-fitting name
+   (`gsc-mcp`) now would claim a `RESERVED` Cortex surface ahead of
+   GSC-0004. Full setting-by-setting review and the decision rationale are
+   in the ADR.
+
+**Recommended next step:** verify the domain binding (item 2), then decide
+whether `goldclaw` is decommissioned (if `gs-api`'s MCP route already
+covers this, per `docs/architecture-sop.md` §2.3) or renamed to `gsc-mcp`
+once GSC-0004 actually starts.
+
+**Update 2026-09-04 (review round, GSC-0006 / GOL-10):** marzton reviewed
+PR #67 and requested four fixes before merge, all addressed in this round:
+
+```yaml
+task_id: GSC-0006 / GOL-10
+objective: >
+  Address marzton's PR #67 review checkpoint: make the Drive mirror's
+  raw-markdown placement convention explicit, pin GitHub links in Drive
+  summary Docs to commits instead of mutable branches, reconcile stale
+  Worker-count language in CLAUDE.md with a newer live observation, and
+  persist a structured handoff for this round.
+project: goldclaw
+repo: marzton/goldclaw
+path: "docs/DRIVE_MIRROR.md, CLAUDE.md, docs/open-work.md, three Drive Docs"
+environment: local
+branch: claude/cortex-setup-state-p6i4c4
+completed:
+  - "docs/DRIVE_MIRROR.md: made 'Doc + .md as siblings in the same folder' the explicit, final convention, and explained that Agent Bootstrap/Imports/ is a distinct older pattern, not the current rule."
+  - "docs/DRIVE_MIRROR.md: added the commit-pinned-link rule (canonical historical reference) alongside a separately labeled current-main/branch link, for every future mirrored Doc."
+  - "CLAUDE.md: labeled the 24-Worker/28-KV/6-D1/7-R2 figures as a 2026-07-08 historical snapshot, and recorded this session's live re-observation (11 Workers, same account) as a separate, unreconciled data point per CANON.md's source-of-truth order."
+  - "Recreated the three Drive summary Docs (ADR-0001, ADR-0002, ART-GSC-UI-0001) with commit-pinned + current-branch links, per the corrected convention."
+  - "Updated the Drive Handoffs/Current doc/.md pair to reflect this round."
+remaining:
+  - "Live Cloudflare dashboard check of goldclaw's bound domain(s) — still the open question from the original ADR-0002 review."
+  - "A full Cloudflare resource re-audit (KV/D1/R2 counts) — only the Worker count was re-checked this pass."
+tests: "None — documentation/convention fixes only, no code paths changed."
+evidence: "PR #67: https://github.com/marzton/goldclaw/pull/67"
+blockers: []
+decisions:
+  - "Doc+.md as same-folder siblings (not an Imports/ subfolder) is the final Drive-mirror convention, chosen to match what was actually implemented rather than move files to match the original plan."
+  - "CLAUDE.md's stale Worker count is labeled historical rather than overwritten, so the drift itself stays visible."
+artifacts: []
+approval_required: "None — documentation only, no production Cloudflare/DNS/IAM/secrets/billing changes."
+recommended_next_capability: "Cloudflare dashboard/route read access (still the same open item from the original ADR-0002 review)"
+recommended_next_agent: "Whoever has Cloudflare dashboard access, to resolve the domain-binding question"
+```
+
+---
+
 ## GSC-0003 — Cortex visual preview shell, Phase A (design artifact)
 
 **Status:** ✅ Phase A design artifact registered. Implementation (Phase B+)
@@ -27,6 +103,19 @@ review/approval per issue #58's stated stopping point.
 
 **Recommended next agent:** Codex, for Phase B (structured D1 ledger +
 provider registry) once approved.
+
+**Update 2026-09-03:** registered a companion detail-view artifact,
+`ART-GSC-UI-0002-v1` "Cortex Topology Command"
+(`docs/artifacts/ART-GSC-UI-0002.md`), from a mockup Rob shared — the
+per-handoff detail screen ART-GSC-UI-0001 left undesigned. Used it to
+extend `docs/HANDOFF.md` with an optional "live agent-to-agent transfer
+record" schema (`git_before`/`git_after`, per-agent sessions, an ordered
+`handoff_state` checklist) — this is now the target shape for GSC-0003's
+actual continuation proof (Agent A hands a real task to Agent B via this
+schema, B resumes without the prior transcript, B verifies and continues).
+Still design/schema only — Phase B implementation (backing this with a
+real ledger instead of seed data) is unstarted and still gated on Rob's
+approval per issue #58.
 
 ---
 
