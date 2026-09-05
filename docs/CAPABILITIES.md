@@ -87,6 +87,25 @@ This is one data point, not a permanent fact about "Claude Code." A
 different session, container, or connector configuration will produce a
 different manifest — always regenerate rather than reuse across sessions.
 
+## Worked example: Drive-mirroring follow-on session (2026-09-03/04)
+
+A later Claude Code Remote session in this same repo confirmed a
+capability the pass above only recorded as generically "available":
+
+```yaml
+google:
+  drive: available — WRITE access confirmed (create_file, get_file_metadata,
+    search_files all exercised successfully), not just read/search. Used to
+    mirror goldclaw artifacts/decisions/handoffs into the existing "GS
+    Cortex" Drive folder tree per docs/DRIVE_MIRROR.md, on user instruction
+    to persist useful outputs there while working.
+limitations:
+  - "No local filesystem access to the user's machine — the user asked to store outputs in their local Drive desktop-sync path (G:\\My Drive\\GS Cortex\\); this runtime instead writes via the Drive API to the same underlying folder, which syncs down automatically. Functionally equivalent, mechanically different — don't assume literal local path access exists in a given runtime."
+```
+
+This is one more data point, not a permanent upgrade to "Claude Code" as a
+vendor — regenerate per session as the schema above says.
+
 ## Follow-on: GSC-0002
 
 A fuller capability inventory across ChatGPT (web/mobile), Codex (app/CLI),

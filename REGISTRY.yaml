@@ -297,6 +297,34 @@ resources:
     verification: verify
     notes: ".org site repo; status TBD per docs/repo-index.md."
 
+  # --- Workers (distinct from the repos they're deployed from) ---
+
+  - stable_id: WORKER-GOLDCLAW
+    human_name: goldclaw (Cloudflare Worker)
+    class: worker
+    status: TRANSITIONING
+    canonical_repo: marzton/goldclaw
+    canonical_path: "src/worker.js, workers/goldshore, wrangler.jsonc"
+    parent: REPO-GOLDCLAW
+    runtime_owner: "Cloudflare account f77de112d2019e5456a3198a8bb50bd2 (Gold Shore Labs), script id 8cb1347aa4ec4740b07ca5d7da808177"
+    providers: [PROVIDER-CLOUDFLARE]
+    verification: verify
+    notes: >
+      Live Worker, distinct resource from the REPO-GOLDCLAW repository entry
+      above — a repo and the Worker deployed from it can have different
+      names/lifecycles. Code is an OAuth front-door/discovery scaffold
+      self-described as intended for an MCP transport (resource_name
+      "GoldShore MCP Portal"); /token, /register, and /mcp all currently
+      return 501 (not wired). No KV/D1/R2/Queue bindings declared. Name does
+      not match NAMING.md's app/service convention for its actual function
+      (better fits gsc-mcp or claw-gateway, both currently RESERVED/planned
+      only) but is deliberately NOT renamed pending verification of its live
+      domain binding and whether it duplicates the documented-but-
+      nonexistent gs-mcp Worker. Also collides in name (not identity) with
+      the unrelated "GoldClaw" operator surface inside goldshore-ai's
+      gs-api/gs-web apps — see LEXICON.md disambiguation. Full review:
+      docs/DECISIONS/ADR-0002-goldclaw-worker-naming.md.
+
   # --- Providers ---
 
   - stable_id: PROVIDER-CLOUDFLARE

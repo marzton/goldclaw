@@ -44,6 +44,17 @@ between quietly.
 - **CLAW (the acronym/concept) is not `goldclaw` (the repo).** `goldclaw`
   is the historical/predecessor lineage — the repo that CLAW as a concept
   grew out of — not a synonym for it. See `docs/DECISIONS/ADR-0001-system-taxonomy.md`.
+- **Three unrelated things currently share the string "goldclaw"/"GoldClaw":**
+  (1) `marzton/goldclaw`, this repo; (2) the live Cloudflare Worker named
+  `goldclaw` in the Gold Shore Labs account, an MCP OAuth front-door
+  scaffold unrelated to this repo's docs/ops purpose; and (3) **"GoldClaw"**
+  (capitalized, no relation to 1 or 2) — a documented, already-implemented
+  operator/socials automation surface living entirely inside
+  `goldshore-ai` (`/goldclaw/*` routes in `apps/gs-api`, its own Google
+  OAuth flow, admin UI at `goldshore.ai/admin/goldclaw`; see
+  `goldshore-ai/docs/GOLDCLAW_INTEGRATIONS.md`). Do not assume any of these
+  three implies or depends on the other two. See
+  `docs/DECISIONS/ADR-0002-goldclaw-worker-naming.md`.
 - **Cortex is not a model.** It is the state/continuity layer that any
   model or agent reads and writes. Do not use "Cortex" to refer to a
   specific LLM.
