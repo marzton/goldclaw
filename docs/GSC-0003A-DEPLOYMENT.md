@@ -1,6 +1,6 @@
 # GSC-0003A — Cortex Worker deployment boundary
 
-Status: implementation branch; not deployed  
+Status: production read-only surface deployed  
 Last verified: 2026-09-05
 
 ## Intended split
@@ -46,6 +46,28 @@ verified local runtime.
 
 No provider resource was changed while collecting this evidence.
 
+## Production promotion — 2026-09-05
+
+User approval to bring `cortex.goldshore.ai` online was received explicitly.
+Production was deployed from detached `origin/main` commit
+`1315933a28ab6283a4f7c357eed1c579cd968a95`, excluding the unmerged
+GSC-0003B Android branch.
+
+- Worker: `goldclaw`
+- Environment: `prod`
+- Active version: `12f0fc22-906b-435b-8472-c266419b2178`
+- Custom domain: `cortex.goldshore.ai`
+- Root: HTTP 200, Cortex HTML rendered
+- `/health`: HTTP 200, `gold-shore-cortex`, `production`, `cloud-read-only`
+- `/api/config`: HTTP 200, cloud configuration
+- `GET /api/runs`: HTTP 200, empty ledger
+- `POST /api/runs`: HTTP 503, `ACTION_GATEWAY_UNAVAILABLE`
+- Browser verification: production/read-only UI rendered; dispatch and other
+  execution controls disabled
+
+Cloudflare Access was not created as part of this promotion. The surface is
+public but read-only; authenticated device transport remains disconnected.
+
 ## Verification completed locally
 
 - Local gateway configuration/run-list test passes.
@@ -85,7 +107,7 @@ Before production traffic changes:
 
 ## Rollback
 
-The pre-change production rollback target is deployment version
+The pre-change production rollback target remains deployment version
 `6b49f7b4-121b-458b-91ca-a144c683d9a2`. Because that version currently
 returns mismatched `gs-mcp` behavior and an MCP error, rollback restores the
 known prior state—not a healthy Cortex service. Do not delete uploaded versions

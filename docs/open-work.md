@@ -21,6 +21,12 @@ No tunnel, Access application, DNS record, secret, preview deployment, or
 production deployment was created. Those remain separate approval-gated
 changes.
 
+**Production surface update:** On 2026-09-05, after explicit approval,
+`cortex.goldshore.ai` was promoted separately from `origin/main` commit
+`1315933a28ab6283a4f7c357eed1c579cd968a95` to Worker version
+`12f0fc22-906b-435b-8472-c266419b2178`. HTTP and browser validation passed;
+cloud dispatch remains fail-closed. Access and the CLAW tunnel remain pending.
+
 ---
 
 ## `goldclaw` Cloudflare Worker naming review (this pass)

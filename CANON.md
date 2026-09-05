@@ -75,16 +75,17 @@ local gateway can dispatch Codex and Claude Code inside a registered checkout;
 the cloud surface deliberately cannot dispatch until an authenticated CLAW
 device gateway exists.
 
-Live Cloudflare state is partially configured but drifted: the production
-custom domain and route for `cortex.goldshore.ai` point to Worker `goldclaw`,
-but the active July deployment serves mismatched `gs-mcp` behavior and differs
-from current repository source. Recent Git builds uploaded versions without
-moving production traffic. No preview Worker, preview DNS record, or preview
-route was verified. See `docs/GSC-0003A-DEPLOYMENT.md` for exact evidence,
-promotion gates, and rollback state.
+The production read-only Cortex surface is live at `cortex.goldshore.ai` on
+Worker `goldclaw`, version `12f0fc22-906b-435b-8472-c266419b2178`, deployed
+from `origin/main` commit `1315933a28ab6283a4f7c357eed1c579cd968a95` on
+2026-09-05. Root assets and status/configuration APIs respond successfully;
+all cloud dispatch remains disabled with `ACTION_GATEWAY_UNAVAILABLE`. No
+Cloudflare Access application protects the hostname yet, and no preview
+Worker, preview DNS record, or preview route was verified. See
+`docs/GSC-0003A-DEPLOYMENT.md` for exact evidence and rollback state.
 
-No production deployment, traffic, DNS, IAM, database, KV, R2, queue, or secret
-change is authorized by this status update.
+This deployment changed production Worker traffic with explicit user approval.
+No DNS, IAM, Access, database, KV, R2, queue, or secret change was made.
 
 ### Verified CLAW nodes
 
