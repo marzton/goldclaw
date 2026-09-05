@@ -79,17 +79,20 @@ resources:
   - stable_id: GSC-CORTEX
     human_name: Gold Shore Cortex
     class: platform
-    status: RESERVED
+    status: INCUBATING
     canonical_repo: marzton/goldclaw
-    canonical_path: "/ (this document set)"
+    canonical_path: "cortex/ (implementation branch); root document set (canon)"
+    domains: [cortex.goldshore.ai, preview.cortex.goldshore.ai]
     parent: ORG-GOLDSHORE
     successor_of: REPO-GOLDCLAW
     verification: verified
     notes: >
-      Planned/incubating. No infrastructure exists. This registry entry
-      represents the canon phase only (GSC-0001). Meaning:
-      Continuity/Orchestration/Registry/Tasking/Execution/eXchange — see
-      FOUNDATIONS.md.
+      Local command surface and Worker-compatible read-only cloud surface exist
+      on the GSC-0003A implementation branch. Production domain/route exist but
+      active traffic serves an older mismatched deployment. Preview hostname is
+      declared in source but no preview DNS/custom-domain/route was verified.
+      See docs/GSC-0003A-DEPLOYMENT.md. Meaning: Continuity/Orchestration/
+      Registry/Tasking/Execution/eXchange — see FOUNDATIONS.md.
 
   - stable_id: REPO-GOLDCLAW
     human_name: Goldclaw

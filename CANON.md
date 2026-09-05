@@ -4,8 +4,8 @@ This file is the current-state snapshot. Unlike `FOUNDATIONS.md`, it is
 expected to change as facts change. When it does, update the "Last verified"
 line and note what changed in `docs/open-work.md`.
 
-Last verified: 2026-09-03 (GSC-0001 bootstrap pass, in `marzton/goldclaw`
-only — see "Verification scope" below).
+Last verified: 2026-09-05 (GSC-0003A repository/Cloudflare deployment audit;
+broader cross-repo statements retain the GSC-0001 scope below).
 
 ## Verification scope for this pass
 
@@ -69,13 +69,22 @@ once its function fully moves into `gs-api`.
 
 ## Cortex status
 
-**Planned / incubating.** No Cortex infrastructure exists yet. This document
-set (`FOUNDATIONS.md`, `CANON.md`, `LEXICON.md`, `NAMING.md`,
-`REGISTRY.yaml`, `docs/DECISIONS/ADR-0001-system-taxonomy.md`,
-`docs/HANDOFF.md`, `docs/CAPABILITIES.md`) is GSC-0001: the canon phase. No
-Worker, D1 database, KV namespace, R2 bucket, or queue for Cortex has been
-created. GSC-0004 (preview infrastructure bootstrap) is explicitly
-follow-on and not part of this pass.
+**Incubating / implementation branch.** GSC-0003A adds a local command surface
+and a Worker-compatible, read-only cloud surface on its own review branch. The
+local gateway can dispatch Codex and Claude Code inside a registered checkout;
+the cloud surface deliberately cannot dispatch until an authenticated CLAW
+device gateway exists.
+
+Live Cloudflare state is partially configured but drifted: the production
+custom domain and route for `cortex.goldshore.ai` point to Worker `goldclaw`,
+but the active July deployment serves mismatched `gs-mcp` behavior and differs
+from current repository source. Recent Git builds uploaded versions without
+moving production traffic. No preview Worker, preview DNS record, or preview
+route was verified. See `docs/GSC-0003A-DEPLOYMENT.md` for exact evidence,
+promotion gates, and rollback state.
+
+No production deployment, traffic, DNS, IAM, database, KV, R2, queue, or secret
+change is authorized by this status update.
 
 ## Legacy / superseded repository handling
 

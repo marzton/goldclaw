@@ -86,6 +86,19 @@ recommended_next_agent: "Whoever has Cloudflare dashboard access, to resolve the
 
 ## GSC-0003 — Cortex visual preview shell, Phase A (design artifact)
 
+**Update 2026-09-05 — GSC-0003A implementation:** The verified local command
+surface branch has been merged with current `origin/main` and extended with a
+Worker-compatible cloud/read-only surface. Preview and production Wrangler
+environments, fail-closed dispatch behavior, behavior tests, non-deploying CI,
+and a deployment/rollback record now exist. Local tests and both environment
+dry-runs pass; a local Wrangler preview smoke test serves the UI and returns 503
+for dispatch as designed. No Cloudflare or GitHub remote mutation was made.
+See `docs/GSC-0003A-DEPLOYMENT.md`.
+
+Remaining: review/commit/push the branch; configure and validate preview Access
+and hostname only after approval; obtain separate explicit approval before any
+production deployment or traffic change.
+
 **Status:** ✅ Phase A design artifact registered. Implementation (Phase B+)
 not started — see stop conditions below.
 
