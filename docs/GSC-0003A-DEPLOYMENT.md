@@ -1,6 +1,6 @@
 # GSC-0003A — Cortex Worker deployment boundary
 
-Status: production read-only surface deployed  
+Status: production read-only surface deployed
 Last verified: 2026-09-05
 
 ## Intended split
