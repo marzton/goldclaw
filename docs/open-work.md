@@ -8,6 +8,21 @@ Update when status changes. Most-recent entries at the top of each section.
 
 ---
 
+## GSC-0003B — Android CLAW registration and gateway hardening
+
+**Status:** Implementation branch in review. `CLAW-ANDROID` was verified from
+its own Termux/Ubuntu runtime and registered without cloning or moving its
+clean `marzton/goldclaw` checkout. The local server now supports platform-
+appropriate executable names, rejects dispatch to a device not served by the
+current gateway, and requires bearer authentication before any non-loopback
+bind. Cloud Cortex continues to show registered devices offline.
+
+No tunnel, Access application, DNS record, secret, preview deployment, or
+production deployment was created. Those remain separate approval-gated
+changes.
+
+---
+
 ## `goldclaw` Cloudflare Worker naming review (this pass)
 
 **Status:** ✅ Review complete, recorded as `docs/DECISIONS/ADR-0002-goldclaw-worker-naming.md`.

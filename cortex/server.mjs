@@ -1,6 +1,6 @@
 import http from 'node:http';
 import { spawn } from 'node:child_process';
-import { randomUUID } from 'node:crypto';
+import { randomUUID, timingSafeEqual } from 'node:crypto';
 import { mkdir, readFile, writeFile, readdir } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -10,6 +10,9 @@ const repoRoot = path.resolve(here, '..');
 const publicRoot = path.join(here, 'public');
 const dataRoot = process.env.CORTEX_DATA_DIR ? path.resolve(process.env.CORTEX_DATA_DIR) : path.join(here, 'data', 'runs');
 const port = Number(process.env.CORTEX_PORT || 4317);
+const gatewayHost = process.env.CORTEX_HOST || '127.0.0.1';
+const gatewayToken = process.env.CORTEX_GATEWAY_TOKEN || '';
+const currentDeviceId = process.env.CORTEX_DEVICE_ID || 'CLAW-HP';
 const registry = JSON.parse(await readFile(path.join(here, 'registry.json'), 'utf8'));
 const runs = new Map();
 const subscribers = new Map();
@@ -18,6 +21,13 @@ await mkdir(dataRoot, { recursive: true });
 function json(res, status, value) {
   res.writeHead(status, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' });
   res.end(JSON.stringify(value));
+}
+function authorized(req) {
+  if (!gatewayToken) return true;
+  const supplied = req.headers.authorization?.replace(/^Bearer\s+/i, '') || '';
+  const expectedBuffer = Buffer.from(gatewayToken);
+  const suppliedBuffer = Buffer.from(supplied);
+  return expectedBuffer.length === suppliedBuffer.length && timingSafeEqual(expectedBuffer, suppliedBuffer);
 }
 async function body(req) {
   let raw = '';
@@ -34,6 +44,7 @@ function repository(id) {
 }
 function validateSelection(input) {
   if (!registry.devices.some((item) => item.id === input.deviceId)) throw new Error('Unknown device');
+  if (input.deviceId !== currentDeviceId) throw new Error(`Device ${input.deviceId} is not served by this gateway (${currentDeviceId})`);
   if (!registry.tasks.some((item) => item.id === input.taskId)) throw new Error('Unknown task');
   if (!registry.agents.some((item) => item.id === input.agentId)) throw new Error('Unknown agent');
   if (!String(input.prompt || '').trim()) throw new Error('Prompt is required');
@@ -65,8 +76,9 @@ function execFile(command, args, cwd) {
   });
 }
 async function gitState(cwd) {
+  const git = process.platform === 'win32' ? 'git.exe' : 'git';
   const [head, status, diff] = await Promise.all([
-    execFile('git.exe', ['rev-parse', 'HEAD'], cwd), execFile('git.exe', ['status', '--short'], cwd), execFile('git.exe', ['diff', '--stat'], cwd)
+    execFile(git, ['rev-parse', 'HEAD'], cwd), execFile(git, ['status', '--short'], cwd), execFile(git, ['diff', '--stat'], cwd)
   ]);
   return { commit: head.stdout.trim() || null, status: status.stdout, diffStat: diff.stdout };
 }
@@ -78,8 +90,13 @@ function contextPrompt(run, prompt) {
 }
 function adapterCommand(run, prompt, resumeId) {
   const fullPrompt = contextPrompt(run, prompt);
-  if (run.agentId === 'codex') return { command: 'codex.exe', args: resumeId ? ['exec', 'resume', '--json', resumeId, fullPrompt] : ['exec', '--json', '--sandbox', 'workspace-write', '-C', run.workingDirectory, fullPrompt] };
-  const command = path.join(process.env.APPDATA || '', 'npm', 'node_modules', '@anthropic-ai', 'claude-code', 'bin', 'claude.exe');
+  if (run.agentId === 'codex') {
+    const command = process.env.CORTEX_CODEX_COMMAND || (process.platform === 'win32' ? 'codex.exe' : 'codex');
+    return { command, args: resumeId ? ['exec', 'resume', '--json', resumeId, fullPrompt] : ['exec', '--json', '--sandbox', 'workspace-write', '-C', run.workingDirectory, fullPrompt] };
+  }
+  const command = process.env.CORTEX_CLAUDE_COMMAND || (process.platform === 'win32'
+    ? path.join(process.env.APPDATA || '', 'npm', 'node_modules', '@anthropic-ai', 'claude-code', 'bin', 'claude.exe')
+    : 'claude');
   const args = ['-p', '--verbose', '--output-format', 'stream-json', '--permission-mode', 'acceptEdits'];
   if (resumeId) args.push('--resume', resumeId); args.push(fullPrompt);
   return { command, args };
@@ -119,7 +136,13 @@ function handoffPrompt(source) {
 }
 async function route(req, res) {
   const url = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
-  if (req.method === 'GET' && url.pathname === '/api/config') return json(res, 200, { ...registry, mode: 'local', environment: 'local', actionGateway: { available: true } });
+  if (url.pathname.startsWith('/api/') && !authorized(req)) return json(res, 401, { error: 'Authentication required', code: 'AUTH_REQUIRED' });
+  if (req.method === 'GET' && url.pathname === '/api/config') return json(res, 200, {
+    ...registry,
+    devices: registry.devices.map((device) => ({ ...device, status: device.id === currentDeviceId ? 'local' : 'offline' })),
+    mode: 'local', environment: 'local', currentDeviceId,
+    actionGateway: { available: true, authenticated: Boolean(gatewayToken) }
+  });
   if (req.method === 'GET' && url.pathname === '/api/runs') {
     const files = await readdir(dataRoot).catch(() => []); const stored = await Promise.all(files.filter((f) => f.endsWith('.json')).map(async (f) => JSON.parse(await readFile(path.join(dataRoot, f), 'utf8'))));
     return json(res, 200, stored.sort((a, b) => b.createdAt.localeCompare(a.createdAt)));
@@ -152,4 +175,9 @@ async function route(req, res) {
   try { const content = await readFile(safe); const ext = path.extname(safe); const type = ext === '.css' ? 'text/css' : ext === '.js' ? 'text/javascript' : 'text/html'; res.writeHead(200, { 'content-type': `${type}; charset=utf-8` }); res.end(content); } catch { json(res, 404, { error: 'Not found' }); }
 }
 export const server = http.createServer((req, res) => route(req, res).catch((error) => json(res, 400, { error: error.message })));
-if (process.env.NODE_ENV !== 'test') server.listen(port, '127.0.0.1', () => console.log(`Cortex local command surface: http://127.0.0.1:${port}`));
+if (process.env.NODE_ENV !== 'test') {
+  if (!['127.0.0.1', '::1', 'localhost'].includes(gatewayHost) && !gatewayToken) {
+    throw new Error('CORTEX_GATEWAY_TOKEN is required when CORTEX_HOST is not loopback');
+  }
+  server.listen(port, gatewayHost, () => console.log(`Cortex local command surface: http://${gatewayHost}:${port} (${currentDeviceId})`));
+}

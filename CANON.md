@@ -86,6 +86,16 @@ promotion gates, and rollback state.
 No production deployment, traffic, DNS, IAM, database, KV, R2, queue, or secret
 change is authorized by this status update.
 
+### Verified CLAW nodes
+
+`CLAW-ANDROID` is registered from direct Android/Termux evidence collected on
+2026-09-05. Its canonical checkout is
+`/data/data/com.termux/files/home/goldclaw`, exposed inside its Ubuntu
+`proot-distro` runtime. Git, GitHub CLI, Node.js, npm, Wrangler, and Firebase
+CLI were observed; provider authorization remains operation-specific. The
+node has no configured cloud tunnel or Access application, so the cloud Cortex
+surface must continue to report it offline and reject dispatch.
+
 ## Legacy / superseded repository handling
 
 Do not infer ownership from a repo name. Per `docs/repo-index.md`'s
