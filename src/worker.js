@@ -2,6 +2,75 @@ const DEFAULT_ACCESS_TEAM_DOMAIN = "goldshore.cloudflareaccess.com";
 const DEFAULT_ACCESS_CLIENT_ID =
   "95aa2409100eea09257ab2d3a41451fe8407db48493840686e6077e3444610b4";
 
+const CORTEX_HOSTS = new Set([
+  "cortex.goldshore.ai",
+  "preview.cortex.goldshore.ai",
+]);
+
+function cortexConfig(env = {}) {
+  const environment = env.CORTEX_ENVIRONMENT ?? "production";
+  return {
+    mode: "cloud",
+    environment,
+    actionGateway: {
+      available: false,
+      reason: "No authenticated CLAW device gateway is connected to this cloud surface.",
+    },
+    devices: [{ id: "CLAW-HP", label: "CLAW-HP", status: "offline" }],
+    repositories: [{ id: "REPO-GOLDCLAW", label: "Goldclaw", status: "registered" }],
+    tasks: [{ id: "GSC-0003A", label: "Cortex Command Surface vertical slice" }],
+    agents: [
+      { id: "codex", label: "Codex", status: "requires-device-gateway" },
+      { id: "claude", label: "Claude Code", status: "requires-device-gateway" },
+    ],
+    context: {
+      files: ["FOUNDATIONS.md", "CANON.md", "REGISTRY.yaml", "docs/HANDOFF.md"],
+      skills: ["goldshore-platform-operations", "task-planner"],
+      plugins: [],
+    },
+  };
+}
+
+async function handleCortex(request, env, url) {
+  if (url.pathname === "/health" || url.pathname === "/api/status") {
+    return Response.json({
+      ok: true,
+      service: "gold-shore-cortex",
+      environment: env.CORTEX_ENVIRONMENT ?? "production",
+      mode: "cloud-read-only",
+      action_gateway: "disconnected",
+      repository: "marzton/goldclaw",
+    });
+  }
+
+  if (url.pathname === "/api/config" && request.method === "GET") {
+    return Response.json(cortexConfig(env));
+  }
+
+  if (url.pathname === "/api/runs" && request.method === "GET") {
+    return Response.json([]);
+  }
+
+  if (url.pathname.startsWith("/api/runs") && request.method !== "GET") {
+    return Response.json(
+      {
+        error: "Cloud dispatch is disabled until an authenticated CLAW device gateway is registered.",
+        code: "ACTION_GATEWAY_UNAVAILABLE",
+      },
+      { status: 503 },
+    );
+  }
+
+  if (!env.ASSETS) {
+    return Response.json(
+      { error: "Cortex assets binding is unavailable", code: "ASSETS_UNAVAILABLE" },
+      { status: 503 },
+    );
+  }
+
+  return env.ASSETS.fetch(request);
+}
+
 function buildMetadata(request) {
   const { origin } = new URL(request.url);
 
@@ -79,6 +148,10 @@ function oauthUnavailable(message) {
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+
+    if (CORTEX_HOSTS.has(url.hostname)) {
+      return handleCortex(request, env, url);
+    }
 
     if (url.pathname === "/health" || url.pathname === "/") {
       return Response.json({

@@ -119,7 +119,7 @@ function handoffPrompt(source) {
 }
 async function route(req, res) {
   const url = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
-  if (req.method === 'GET' && url.pathname === '/api/config') return json(res, 200, registry);
+  if (req.method === 'GET' && url.pathname === '/api/config') return json(res, 200, { ...registry, mode: 'local', environment: 'local', actionGateway: { available: true } });
   if (req.method === 'GET' && url.pathname === '/api/runs') {
     const files = await readdir(dataRoot).catch(() => []); const stored = await Promise.all(files.filter((f) => f.endsWith('.json')).map(async (f) => JSON.parse(await readFile(path.join(dataRoot, f), 'utf8'))));
     return json(res, 200, stored.sort((a, b) => b.createdAt.localeCompare(a.createdAt)));

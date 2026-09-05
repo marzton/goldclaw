@@ -1,10 +1,35 @@
 {
+  "$schema": "node_modules/wrangler/config-schema.json",
   "name": "goldclaw",
   "main": "./src/worker.js",
-  "compatibility_date": "2026-07-22",
+  "compatibility_date": "2026-08-27",
+  "preview_urls": true,
+  "assets": {
+    "directory": "./cortex/public",
+    "binding": "ASSETS",
+    "run_worker_first": true
+  },
+  "vars": {
+    "CORTEX_ENVIRONMENT": "development"
+  },
   "env": {
+    "preview": {
+      "name": "goldclaw-preview",
+      "routes": [
+        { "pattern": "preview.cortex.goldshore.ai", "custom_domain": true }
+      ],
+      "vars": {
+        "CORTEX_ENVIRONMENT": "preview"
+      }
+    },
     "prod": {
-      "name": "goldclaw"
+      "name": "goldclaw",
+      "routes": [
+        { "pattern": "cortex.goldshore.ai", "custom_domain": true }
+      ],
+      "vars": {
+        "CORTEX_ENVIRONMENT": "production"
+      }
     }
   },
   // Optional when this worker is used as the OAuth front door for mcp.goldshore.ai.
