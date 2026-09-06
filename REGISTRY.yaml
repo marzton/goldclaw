@@ -132,7 +132,25 @@ resources:
     notes: >
       Local/device execution node concept (laptop, workstation,
       Android/Termux, future server/NAS/VM). No CLAW nodes formally
-      registered yet.
+      registered when this concept was created; CLAW-ANDROID is now the first
+      device entry verified from its own runtime.
+
+  - stable_id: CLAW-ANDROID
+    human_name: Android Termux CLAW
+    class: executor-node
+    status: ACTIVE
+    parent: CLAW-CONCEPT
+    canonical_repo: marzton/goldclaw
+    canonical_path: /data/data/com.termux/files/home/goldclaw
+    runtime_owner: Android Termux / Ubuntu proot-distro
+    verification: verified
+    notes: >
+      Verified from the device on 2026-09-05: clean main checkout, Git 2.53.0,
+      Node.js 22.23.2, npm 10.9.8, and GitHub CLI authenticated as marzton.
+      Local Cortex root is /root/GS-Cortex. Wrangler and Firebase CLI are
+      installed, but provider authority must be checked separately. The node
+      has no configured cloud tunnel or Cloudflare Access policy and remains
+      unreachable from the cloud Cortex surface.
 
   - stable_id: GSW-GEARSWIPE
     human_name: GearSwipe

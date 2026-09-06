@@ -16,7 +16,10 @@ function cortexConfig(env = {}) {
       available: false,
       reason: "No authenticated CLAW device gateway is connected to this cloud surface.",
     },
-    devices: [{ id: "CLAW-HP", label: "CLAW-HP", status: "offline" }],
+    devices: [
+      { id: "CLAW-HP", label: "CLAW-HP", status: "offline" },
+      { id: "CLAW-ANDROID", label: "CLAW-ANDROID", status: "offline" },
+    ],
     repositories: [{ id: "REPO-GOLDCLAW", label: "Goldclaw", status: "registered" }],
     tasks: [{ id: "GSC-0003A", label: "Cortex Command Surface vertical slice" }],
     agents: [
