@@ -18,6 +18,8 @@
   `gs-api` for the canonical email-code flow when the `GS_API` binding is
   deployed. Changes are covered by open GearSwipe PR #139; no production
   deploy has been performed.
+- GearSwipe full-source ESLint passes with 0 errors (6 existing warnings); the
+  lint script now excludes generated Wrangler output.
 - Live deployment history still predates these additions; production deploy is
   not authorized by the current canon.
 
