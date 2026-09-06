@@ -46,7 +46,8 @@
 11. Dependency audit is clean after targeted `fast-uri` and `fflate` overrides;
     retain the audit result in PR #139.
 12. Hardened Turnstile validation is open as `goldshore-ai` PR #7013: missing
-    `TURNSTILE_SECRET` must fail closed instead of accepting form requests.
+    `TURNSTILE_SECRET` must fail closed instead of accepting form requests;
+    its Cloudflare preview build succeeded.
 
 ## Safety gates
 
