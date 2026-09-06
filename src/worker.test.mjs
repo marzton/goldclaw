@@ -44,3 +44,17 @@ test("non-Cortex hosts retain the goldclaw OAuth/MCP front-door behavior", async
   assert.equal(response.status, 200);
   assert.equal((await response.json()).service, "goldclaw");
 });
+
+test("Cortex exposes gs-api reads and gates mutations on explicit approval", async () => {
+  const calls = [];
+  const gsApi = { fetch(request) { calls.push(request); return Response.json({ ok: true, path: new URL(request.url).pathname }); } };
+  const env = { ASSETS: assets, GS_API: gsApi, CORTEX_ENVIRONMENT: "preview", CORTEX_APPROVAL_TOKEN: "test-approval" };
+  const read = await worker.fetch(new Request("https://preview.cortex.goldshore.ai/api/gs-api/mcp/capabilities"), env);
+  assert.equal(read.status, 200);
+  assert.equal((await read.json()).path, "/mcp/capabilities");
+  const denied = await worker.fetch(new Request("https://preview.cortex.goldshore.ai/api/gs-api/admin/users", { method: "POST" }), env);
+  assert.equal(denied.status, 403);
+  const approved = await worker.fetch(new Request("https://preview.cortex.goldshore.ai/api/gs-api/admin/users", { method: "POST", headers: { "x-cortex-approval": "test-approval" } }), env);
+  assert.equal(approved.status, 200);
+  assert.equal(calls.length, 2);
+});

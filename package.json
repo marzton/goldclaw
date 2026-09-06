@@ -8,6 +8,8 @@
     "cortex:test": "node --test cortex/tests/*.test.mjs src/*.test.mjs",
     "cortex:worker:dev": "npx wrangler@4.125.0 dev --env preview",
     "cortex:worker:check": "npx wrangler@4.125.0 deploy --dry-run --env preview --outdir .wrangler-dry-run/preview && npx wrangler@4.125.0 deploy --dry-run --env prod --outdir .wrangler-dry-run/prod",
+    "cortex:dry-run:preview": "npx wrangler@4.125.0 deploy --dry-run --env preview --outdir .wrangler-dry-run/preview",
+    "cortex:dry-run:prod": "npx wrangler@4.125.0 deploy --dry-run --env prod --outdir .wrangler-dry-run/prod",
     "cortex:worker:upload:preview": "npx wrangler@4.125.0 versions upload --env preview",
     "cortex:worker:upload:production": "npx wrangler@4.125.0 versions upload --env prod",
     "build": "npm --prefix workers/goldshore ci && npm --prefix workers/goldshore run check && node scripts/build-pages.js",

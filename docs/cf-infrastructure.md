@@ -6,7 +6,9 @@ Dashboard: https://dash.cloudflare.com/f77de112d2019e5456a3198a8bb50bd2
 This document is the canonical agent reference for all Cloudflare resources.
 Do not duplicate this in individual repo CLAUDE.md files — link here instead.
 
-> Last verified against the live account: **2026-07-08** (24 Workers, 28 KV
+> Last verified against the live account: **2026-09-06**. The inventory below is
+> historical where marked; current Worker/queue/workflow evidence is recorded
+> in `docs/AUDIT-STATUS-2026-09-06.md`.
 > namespaces, 6 D1 databases, 7 R2 buckets). For how these resources connect
 > across subsystems and repos, see `docs/integration-map.md`.
 
@@ -18,15 +20,14 @@ Do not duplicate this in individual repo CLAUDE.md files — link here instead.
 |-------------|-------------------|--------|
 | `gs-web-app` | Main web app — `goldshore.ai` | ✅ Active |
 | `gs-api` | Primary API — `api.goldshore.ai` | ✅ Active |
-| `gs-agent` | AI agent runtime | ✅ Active |
-| `gs-agent-prod` | AI agent runtime (prod tag) | ✅ Active |
+| `gs-agent` / `gs-agent-prod` | Former AI agent runtime | Historical |
 | `gs-mcp` | Model Context Protocol server | ✅ Active |
-| `gs-gateway-prod` | API gateway / routing | ✅ Active |
+| `gs-gateway-prod` | Former API gateway / routing | Historical |
 | `gs-trading-prod` | Trading engine — `goldshore.org/dash` | ✅ Active |
-| `gs-signals-prod` | Market signals pipeline | ✅ Active |
-| `gs-core-worker-prod` | Core platform ops | ✅ Active |
-| `gs-mail` | Transactional email routing | ✅ Active |
-| `gs-platform` | Platform landing / routing | ✅ Active |
+| `gs-signals-prod` | Former market signals pipeline | Historical |
+| `gs-core-worker-prod` | Former core platform ops | Historical |
+| `gs-mail` | Former transactional email routing | Historical |
+| `gs-platform` | Former platform landing / routing | Historical |
 | `gs-www-redirect-prod` | www → apex redirect | ✅ Active |
 | `gs-www-redirect-production` | www → apex redirect (alt) | ✅ Active |
 | `gs-web-prod` | Deploy channel for gs-web (prod tag) | ✅ Active |
@@ -37,7 +38,7 @@ Do not duplicate this in individual repo CLAUDE.md files — link here instead.
 | `banproof-email-router` | banproof email handling | ✅ Active |
 | `armsway-com-prod` | armsway.com site | ✅ Active |
 | `partners-in-pools` | Partners in Pools project | ✅ Active |
-| `gs-core-worker` | Core worker (legacy — superseded by prod tag) | Legacy |
+| `gs-core-worker` | Core worker (legacy) | Historical |
 | `gs-todo` | Internal todo / scratch Worker | Internal |
 | `goldshore-ai` | Legacy Worker (superseded by gs-web-app) | Legacy |
 

@@ -16,10 +16,16 @@ function cortexConfig(env = {}) {
       available: false,
       reason: "No authenticated CLAW device gateway is connected to this cloud surface.",
     },
-    devices: [
-      { id: "CLAW-HP", label: "CLAW-HP", status: "offline" },
-      { id: "CLAW-ANDROID", label: "CLAW-ANDROID", status: "offline" },
-    ],
+    services: {
+      gsApi: { binding: "GS_API", available: Boolean(env.GS_API) },
+      gearSwipe: { owner: "gs-api", binding: "GEARSWIPE", workflow: "gearswipe-workflow" },
+    },
+    capabilities: {
+      read: ["mcp", "admin"],
+      write: ["mcp", "admin"],
+      approval_required: true,
+    },
+    devices: [{ id: "CLAW-HP", label: "CLAW-HP", status: "offline" }],
     repositories: [{ id: "REPO-GOLDCLAW", label: "Goldclaw", status: "registered" }],
     tasks: [{ id: "GSC-0003A", label: "Cortex Command Surface vertical slice" }],
     agents: [
@@ -32,6 +38,22 @@ function cortexConfig(env = {}) {
       plugins: [],
     },
   };
+}
+
+async function proxyGsApi(request, env, url) {
+  if (!env.GS_API) return Response.json({ error: "gs-api binding unavailable", code: "GS_API_UNAVAILABLE" }, { status: 503 });
+  const targetPath = url.pathname.replace(/^\/api\/gs-api/, "") || "/";
+  const target = new URL(request.url);
+  target.pathname = targetPath;
+  const method = request.method.toUpperCase();
+  if (method !== "GET" && method !== "HEAD") {
+    const expected = env.CORTEX_APPROVAL_TOKEN;
+    const supplied = request.headers.get("x-cortex-approval");
+    if (!expected || supplied !== expected) {
+      return Response.json({ error: "Explicit Cortex approval required", code: "APPROVAL_REQUIRED" }, { status: 403 });
+    }
+  }
+  return env.GS_API.fetch(new Request(target, request));
 }
 
 async function handleCortex(request, env, url) {
@@ -48,6 +70,14 @@ async function handleCortex(request, env, url) {
 
   if (url.pathname === "/api/config" && request.method === "GET") {
     return Response.json(cortexConfig(env));
+  }
+
+  if (
+    url.pathname.startsWith("/api/gs-api/mcp") ||
+    url.pathname.startsWith("/api/gs-api/admin") ||
+    url.pathname.startsWith("/api/gs-api/workflows/gearswipe")
+  ) {
+    return proxyGsApi(request, env, url);
   }
 
   if (url.pathname === "/api/runs" && request.method === "GET") {
