@@ -32,10 +32,14 @@
 5. Reconcile and delete legacy checkout/contact queues only after producer and consumer counts are zero.
 6. Deploy the GearSwipe PR and configure/verify its `GS_API` binding; the local
    implementation is ready, but live behavior remains unchanged until deploy.
-7. Review the live `gearswipe-revisit-tracker` Worker and determine whether it is canonical or an unretired satellite.
-8. Run live OAuth, signup, subscription, invitation, and admin smoke tests using non-production test identities.
-9. Update stale `goldshore-ai` integration docs after isolating its conflicted worktree; legacy names may remain only in historical/audit sections.
-10. Dependency audit is clean after targeted `fast-uri` and `fflate` overrides;
+7. Fix `gs-api` newsletter persistence: `/newsletter/submissions` currently
+   stores every submission with `brand='goldshore'`, including
+   `source='gearswipe-subscribe'`; derive the brand from the validated source
+   before enabling the GearSwipe canonical flow.
+8. Review the live `gearswipe-revisit-tracker` Worker and determine whether it is canonical or an unretired satellite.
+9. Run live OAuth, signup, subscription, invitation, and admin smoke tests using non-production test identities.
+10. Update stale `goldshore-ai` integration docs after isolating its conflicted worktree; legacy names may remain only in historical/audit sections.
+11. Dependency audit is clean after targeted `fast-uri` and `fflate` overrides;
     retain the audit result in PR #139.
 
 ## Safety gates
