@@ -35,7 +35,8 @@
 7. Fix `gs-api` newsletter persistence: `/newsletter/submissions` currently
    stores every submission with `brand='goldshore'`, including
    `source='gearswipe-subscribe'`; derive the brand from the validated source
-   before enabling the GearSwipe canonical flow.
+   before enabling the GearSwipe canonical flow; isolated fix is open as
+   `goldshore-ai` PR #7012.
 8. Review the live `gearswipe-revisit-tracker` Worker and determine whether it is canonical or an unretired satellite.
 9. Run live OAuth, signup, subscription, invitation, and admin smoke tests using non-production test identities.
 10. Update stale `goldshore-ai` integration docs after isolating its conflicted worktree; legacy names may remain only in historical/audit sections.
