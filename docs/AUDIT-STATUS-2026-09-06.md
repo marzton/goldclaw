@@ -25,6 +25,9 @@
 - Live GearSwipe version `e8c28a61-5882-428e-a289-f62e7af7c76f` was inspected
   with Wrangler: it has `DB`, `ASSETS_R2`, and the existing GearSwipe workflow
   bindings, but no `GS_API`; the canonical proxy is therefore not live.
+- Live `gs-api` remains on version `ca480031-a08c-4d33-ab98-6724d9c29ef7`
+  (2026-08-23); it has `GS_SIGNALS` but not the configured
+  `EDITORIAL_PRODUCTION` or `GEARSWIPE_WORKFLOW` bindings.
 
 ## Open production items
 
