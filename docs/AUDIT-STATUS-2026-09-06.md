@@ -22,6 +22,9 @@
   lint script now excludes generated Wrangler output.
 - Live deployment history still predates these additions; production deploy is
   not authorized by the current canon.
+- Live GearSwipe version `e8c28a61-5882-428e-a289-f62e7af7c76f` was inspected
+  with Wrangler: it has `DB`, `ASSETS_R2`, and the existing GearSwipe workflow
+  bindings, but no `GS_API`; the canonical proxy is therefore not live.
 
 ## Open production items
 
