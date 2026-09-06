@@ -28,6 +28,9 @@
 - Live `gs-api` remains on version `ca480031-a08c-4d33-ab98-6724d9c29ef7`
   (2026-08-23); it has `GS_SIGNALS` but not the configured
   `EDITORIAL_PRODUCTION` or `GEARSWIPE_WORKFLOW` bindings.
+- Live queue detail confirms `goldshore-jobs` still has producers
+  `worker:banproof-me-prod` and `worker:gs-api`, with only `worker:gs-api` as
+  consumer; the banproof producer remains an active retirement blocker.
 
 ## Open production items
 
