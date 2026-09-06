@@ -1,0 +1,43 @@
+name: Cortex Worker CI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "cortex/**"
+      - "src/worker.js"
+      - "src/worker.test.mjs"
+      - "wrangler.jsonc"
+      - "package.json"
+      - ".github/workflows/cortex-worker-ci.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "cortex/**"
+      - "src/worker.js"
+      - "src/worker.test.mjs"
+      - "wrangler.jsonc"
+      - "package.json"
+      - ".github/workflows/cortex-worker-ci.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Test and dry-run preview + production
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Test local gateway and Worker boundary
+        run: npm run cortex:test
+
+      - name: Validate preview and production bundles
+        run: npm run cortex:worker:check

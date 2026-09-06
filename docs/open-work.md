@@ -8,6 +8,27 @@ Update when status changes. Most-recent entries at the top of each section.
 
 ---
 
+## GSC-0003B — Android CLAW registration and gateway hardening
+
+**Status:** Implementation branch in review. `CLAW-ANDROID` was verified from
+its own Termux/Ubuntu runtime and registered without cloning or moving its
+clean `marzton/goldclaw` checkout. The local server now supports platform-
+appropriate executable names, rejects dispatch to a device not served by the
+current gateway, and requires bearer authentication before any non-loopback
+bind. Cloud Cortex continues to show registered devices offline.
+
+No tunnel, Access application, DNS record, secret, preview deployment, or
+production deployment was created. Those remain separate approval-gated
+changes.
+
+**Production surface update:** On 2026-09-05, after explicit approval,
+`cortex.goldshore.ai` was promoted separately from `origin/main` commit
+`1315933a28ab6283a4f7c357eed1c579cd968a95` to Worker version
+`12f0fc22-906b-435b-8472-c266419b2178`. HTTP and browser validation passed;
+cloud dispatch remains fail-closed. Access and the CLAW tunnel remain pending.
+
+---
+
 ## `goldclaw` Cloudflare Worker naming review (this pass)
 
 **Status:** ✅ Review complete, recorded as `docs/DECISIONS/ADR-0002-goldclaw-worker-naming.md`.
@@ -85,6 +106,19 @@ recommended_next_agent: "Whoever has Cloudflare dashboard access, to resolve the
 ---
 
 ## GSC-0003 — Cortex visual preview shell, Phase A (design artifact)
+
+**Update 2026-09-05 — GSC-0003A implementation:** The verified local command
+surface branch has been merged with current `origin/main` and extended with a
+Worker-compatible cloud/read-only surface. Preview and production Wrangler
+environments, fail-closed dispatch behavior, behavior tests, non-deploying CI,
+and a deployment/rollback record now exist. Local tests and both environment
+dry-runs pass; a local Wrangler preview smoke test serves the UI and returns 503
+for dispatch as designed. No Cloudflare or GitHub remote mutation was made.
+See `docs/GSC-0003A-DEPLOYMENT.md`.
+
+Remaining: review/commit/push the branch; configure and validate preview Access
+and hostname only after approval; obtain separate explicit approval before any
+production deployment or traffic change.
 
 **Status:** ✅ Phase A design artifact registered. Implementation (Phase B+)
 not started — see stop conditions below.

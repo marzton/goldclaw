@@ -4,8 +4,8 @@ This file is the current-state snapshot. Unlike `FOUNDATIONS.md`, it is
 expected to change as facts change. When it does, update the "Last verified"
 line and note what changed in `docs/open-work.md`.
 
-Last verified: 2026-09-03 (GSC-0001 bootstrap pass, in `marzton/goldclaw`
-only — see "Verification scope" below).
+Last verified: 2026-09-05 (GSC-0003A repository/Cloudflare deployment audit;
+broader cross-repo statements retain the GSC-0001 scope below).
 
 ## Verification scope for this pass
 
@@ -69,13 +69,33 @@ once its function fully moves into `gs-api`.
 
 ## Cortex status
 
-**Planned / incubating.** No Cortex infrastructure exists yet. This document
-set (`FOUNDATIONS.md`, `CANON.md`, `LEXICON.md`, `NAMING.md`,
-`REGISTRY.yaml`, `docs/DECISIONS/ADR-0001-system-taxonomy.md`,
-`docs/HANDOFF.md`, `docs/CAPABILITIES.md`) is GSC-0001: the canon phase. No
-Worker, D1 database, KV namespace, R2 bucket, or queue for Cortex has been
-created. GSC-0004 (preview infrastructure bootstrap) is explicitly
-follow-on and not part of this pass.
+**Incubating / implementation branch.** GSC-0003A adds a local command surface
+and a Worker-compatible, read-only cloud surface on its own review branch. The
+local gateway can dispatch Codex and Claude Code inside a registered checkout;
+the cloud surface deliberately cannot dispatch until an authenticated CLAW
+device gateway exists.
+
+The production read-only Cortex surface is live at `cortex.goldshore.ai` on
+Worker `goldclaw`, version `12f0fc22-906b-435b-8472-c266419b2178`, deployed
+from `origin/main` commit `1315933a28ab6283a4f7c357eed1c579cd968a95` on
+2026-09-05. Root assets and status/configuration APIs respond successfully;
+all cloud dispatch remains disabled with `ACTION_GATEWAY_UNAVAILABLE`. No
+Cloudflare Access application protects the hostname yet, and no preview
+Worker, preview DNS record, or preview route was verified. See
+`docs/GSC-0003A-DEPLOYMENT.md` for exact evidence and rollback state.
+
+This deployment changed production Worker traffic with explicit user approval.
+No DNS, IAM, Access, database, KV, R2, queue, or secret change was made.
+
+### Verified CLAW nodes
+
+`CLAW-ANDROID` is registered from direct Android/Termux evidence collected on
+2026-09-05. Its canonical checkout is
+`/data/data/com.termux/files/home/goldclaw`, exposed inside its Ubuntu
+`proot-distro` runtime. Git, GitHub CLI, Node.js, npm, Wrangler, and Firebase
+CLI were observed; provider authorization remains operation-specific. The
+node has no configured cloud tunnel or Access application, so the cloud Cortex
+surface must continue to report it offline and reject dispatch.
 
 ## Legacy / superseded repository handling
 
