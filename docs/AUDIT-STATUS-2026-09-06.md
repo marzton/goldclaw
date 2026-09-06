@@ -56,7 +56,7 @@
 9. Run live OAuth, signup, subscription, invitation, and admin smoke tests using non-production test identities.
 10. Update stale `goldshore-ai` integration docs after isolating its conflicted worktree; legacy names may remain only in historical/audit sections.
 11. Dependency audit is clean after targeted `fast-uri` and `fflate` overrides;
-    retain the audit result in PR #139.
+    retain the audit result in the focused GearSwipe PR #140.
 12. Hardened Turnstile validation is open as `goldshore-ai` PR #7013: missing
     `TURNSTILE_SECRET` must fail closed instead of accepting form requests;
     its Cloudflare preview build succeeded.
