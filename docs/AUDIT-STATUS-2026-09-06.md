@@ -31,6 +31,9 @@
 - Read-only public smoke checks return HTTP 200 for GearSwipe `/`, `/login`,
   `/signup`, and `/admin`; live `/signup` and `/store` HTML do not contain the
   Turnstile script, confirming the PR changes are not deployed.
+- Live `https://api.goldshore.ai/health` returns `status=ok`, service `gs-api`,
+  and API version `v1`; this confirms reachability but not the newer workflow
+  bindings.
 - Live queue detail confirms `goldshore-jobs` still has producers
   `worker:banproof-me-prod` and `worker:gs-api`, with only `worker:gs-api` as
   consumer; the banproof producer remains an active retirement blocker.
