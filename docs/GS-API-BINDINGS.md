@@ -27,7 +27,14 @@ MCP and admin surfaces through its `GS_API` service binding:
 - Mutating requests on those paths require `X-Cortex-Approval` matching the
   `CORTEX_APPROVAL_TOKEN` secret. Missing configuration fails closed.
 
-The binding is environment-local: Cortex preview targets `gs-api` preview and
-production targets `gs-api` production. The external `gs-api` manifest remains
-the owner of `GEARSWIPE` and `GEARSWIPE_WORKFLOW`; Cortex must not bind those
-resources directly.
+Production binds to the deployed base Worker named `gs-api`. The `prod` label
+in the external Worker's Wrangler source selects configuration whose resolved
+Worker name is still `gs-api`; it does not create a Cloudflare service
+environment named `prod`.
+
+Cortex preview intentionally has no `GS_API` binding and therefore returns
+`GS_API_UNAVAILABLE` (503) for these proxy routes. Do not point preview at the
+production API. Add a preview binding only after a separately deployed preview
+`gs-api` Worker or addressable service environment has been verified. The
+external `gs-api` manifest remains the owner of `GEARSWIPE` and
+`GEARSWIPE_WORKFLOW`; Cortex must not bind those resources directly.

@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 
 const source = await readFile(new URL("./worker.js", import.meta.url), "utf8");
+const wranglerConfig = await readFile(new URL("../wrangler.jsonc", import.meta.url), "utf8");
 const { default: worker } = await import(`data:text/javascript;base64,${Buffer.from(source).toString("base64")}`);
 
 const assets = {
@@ -12,6 +13,19 @@ const assets = {
     });
   },
 };
+
+test("Cortex service bindings match the deployed gs-api topology", () => {
+  const previewStart = wranglerConfig.indexOf('"preview": {');
+  const productionStart = wranglerConfig.indexOf('"prod": {', previewStart);
+  const previewConfig = wranglerConfig.slice(previewStart, productionStart);
+  const productionConfig = wranglerConfig.slice(productionStart);
+
+  assert.notEqual(previewStart, -1);
+  assert.notEqual(productionStart, -1);
+  assert.doesNotMatch(previewConfig, /"binding"\s*:\s*"GS_API"/u);
+  assert.match(productionConfig, /"binding"\s*:\s*"GS_API"\s*,\s*"service"\s*:\s*"gs-api"/u);
+  assert.doesNotMatch(productionConfig, /"environment"\s*:\s*"prod"/u);
+});
 
 test("Cortex production host serves assets and reports read-only cloud status", async () => {
   const env = { ASSETS: assets, CORTEX_ENVIRONMENT: "production" };
