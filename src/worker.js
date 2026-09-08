@@ -16,6 +16,10 @@ function cortexConfig(env = {}) {
       available: false,
       reason: "No authenticated CLAW device gateway is connected to this cloud surface.",
     },
+    devices: [
+      { id: "CLAW-HP", label: "CLAW-HP", status: "offline" },
+      { id: "CLAW-ANDROID", label: "CLAW-ANDROID", status: "offline" },
+    ],
     services: {
       gsApi: { binding: "GS_API", available: Boolean(env.GS_API) },
       gearSwipe: { owner: "gs-api", binding: "GEARSWIPE", workflow: "gearswipe-workflow" },
