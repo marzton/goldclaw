@@ -27,6 +27,12 @@ Both source bundles are validated without deployment by
 compatibility date is pinned to `2026-08-27`, the newest date supported by the
 verified local runtime.
 
+Production's `GS_API` service binding targets the base Worker `gs-api` without
+an `environment` field. Although that Worker's source uses `[env.prod]`, its
+resolved deployed name is `gs-api`; Cloudflare has no service environment named
+`prod`. Preview is intentionally unbound and fails closed with 503 until a
+separate preview API target exists.
+
 ## Provider state observed before implementation
 
 - Cloudflare account: Gold Shore Labs (`f77de112d2019e5456a3198a8bb50bd2`)

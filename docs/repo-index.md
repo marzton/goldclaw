@@ -10,7 +10,7 @@ Update this file when repos are created, archived, or change status.
 | Repo | What it deploys | Canonical apps | Status |
 |------|----------------|---------------|--------|
 | `marzton/goldshore-ai` | `goldshore.ai/*`, `api.goldshore.ai/*` | `apps/gs-web` (Astro), `apps/gs-api` (Worker) | ✅ Primary |
-| `marzton/goldshore-gateway` | `gs-platform` Worker — routes all subdomain traffic | standalone Worker | ✅ Active (CF token needs renewal) |
+| `marzton/goldshore-gateway` | Former `gs-platform` gateway Worker | standalone Worker | Historical/archive candidate; cutover evidence pending |
 
 ### goldshore-ai legacy stubs (do not route new work here)
 

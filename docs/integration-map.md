@@ -1,6 +1,6 @@
 # Goldshore Ecosystem Integration Map
 
-> Verified against live Cloudflare state on **2026-07-08** (Gold Shore Labs account
+> Baseline verified against live Cloudflare state on **2026-09-06** (Gold Shore Labs account
 > `f77de112d2019e5456a3198a8bb50bd2`) and wrangler configs of all 21 repos. Updated
 > **2026-08-17** with Phase 2 audit findings (admin backend consolidation complete;
 > goldshore-admin confirmed as legacy SaaS platform unrelated to gs-api ops admin).
@@ -61,9 +61,9 @@ Machine-to-machine auth through CF Access uses the shared Service Token pair
 
 ### Gateway
 
-- **Canonical repo**: `marzton/goldshore-gateway` (root repo doubles as admin
-  dashboard; `goldshore-gateway/` subdir is the Worker). Deploys Worker
-  **`gs-platform`** — the platform front door.
+- **Historical repo**: `marzton/goldshore-gateway` (root repo doubled as admin
+  dashboard; `goldshore-gateway/` subdir was the Worker). Its `gs-platform`
+  front door is retired pending final traffic-cutover evidence.
 - **Routes**: `gw.goldshore.ai/*`, `gateway.goldshore.ai/*` (ops/agent/api hostnames
   handled by gateway routing logic / dedicated workers).
 - **Service bindings**: `AGENT` → `gs-api`, `SECURITY_CHECK` → `banproof-me`,
@@ -73,8 +73,8 @@ Machine-to-machine auth through CF Access uses the shared Service Token pair
   D1 `goldshore` (`2b7c…` — ⚠ not present in live account, see §6), AI binding,
   `version_metadata`.
 - The monorepo stub `goldshore-ai/apps/gs-gateway` exists only to satisfy
-  workspace validation — **do not deploy it**. Live worker `gs-gateway-prod`
-  also exists in the account.
+  workspace validation — **do not deploy it**. No live `gs-gateway` Worker was
+  found in the 2026-09-06 account inventory.
 
 ### Signals
 
@@ -411,3 +411,11 @@ after traffic validation).*
 11. **Standing security actions** (from `open-work.md`): renew expired
     `CLOUDFLARE_API_TOKEN` in `goldshore-gateway`; revoke old GCP
     `github-storage-access` key (exposed in chat).
+# Status note — 2026-09-06
+
+This map contains historical migration topology. `gs-api` is the canonical
+runtime for API, signals, editorial, GearSwipe, queue, and email handlers.
+References to `gs-platform`, `gs-gateway`, `gs-agent`, `gs-mail`, and
+`gs-control` below describe former or audit-era infrastructure unless a row is
+explicitly marked current. See `docs/AUDIT-STATUS-2026-09-06.md` for live
+evidence and unresolved retirement gates.
