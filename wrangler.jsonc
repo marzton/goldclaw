@@ -15,9 +15,6 @@
   "env": {
     "preview": {
       "name": "goldclaw-preview",
-      "services": [
-        { "binding": "GS_API", "service": "gs-api", "environment": "preview" }
-      ],
       "routes": [
         { "pattern": "preview.cortex.goldshore.ai", "custom_domain": true }
       ],
@@ -28,7 +25,7 @@
     "prod": {
       "name": "goldclaw",
       "services": [
-        { "binding": "GS_API", "service": "gs-api", "environment": "prod" }
+        { "binding": "GS_API", "service": "gs-api" }
       ],
       "routes": [
         { "pattern": "cortex.goldshore.ai", "custom_domain": true }
